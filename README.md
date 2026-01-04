@@ -1,74 +1,92 @@
-# React + TypeScript + Vite
+# SIPESDA Frontend (React + TypeScript)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Sistem Informasi Pengelolaan Sumber Daya (SIPESDA) bagian Frontend. Aplikasi ini dibangun menggunakan **React** dengan **TypeScript** dan berkomunikasi dengan **SIPESDA Laravel API**.
 
-Currently, two official plugins are available:
+## 🚀 Teknologi yang Digunakan
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+* **Framework:** React 18
+* **Language:** TypeScript
+* **State Management:** (Contoh: Redux Toolkit / Context API)
+* **Styling:** (Contoh: Tailwind CSS / Bootstrap)
+* **HTTP Client:** Axios
+* **Build Tool:** Vite / Create React App
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Persyaratan Sistem
 
-## Expanding the ESLint configuration
+Sebelum menjalankan proyek ini, pastikan Anda telah menginstal:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+* **Node.js** (Versi 16 ke atas direkomendasikan)
+* **npm** atau **yarn**
+* **SIPESDA Laravel API** (Sudah berjalan di lokal atau server)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## ⚙️ Cara Instalasi
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. **Clone Repository:**
+```bash
+git clone https://github.com/username/sipesda-fe.git
+cd sipesda-fe
+
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+2. **Instal Dependensi:**
+Karena ini adalah proyek React, gunakan `npm` (bukan composer):
+```bash
+npm install
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
-"# sipesda-fe" 
+
+
+3. **Konfigurasi Environment:**
+Buat file `.env` di direktori utama dan sesuaikan URL API Laravel Anda:
+```env
+VITE_API_BASE_URL=http://localhost:8000/api
+
+```
+
+
+
+---
+
+## 🏃 Menjalankan Aplikasi
+
+Untuk menjalankan aplikasi dalam mode pengembangan:
+
+```bash
+npm run dev
+
+```
+
+Aplikasi akan berjalan di [http://localhost:5173](https://www.google.com/search?q=http://localhost:5173) (jika menggunakan Vite).
+
+---
+
+## 📁 Struktur Folder
+
+* `src/components`: Komponen UI yang dapat digunakan kembali.
+* `src/pages`: Halaman utama aplikasi.
+* `src/services`: Konfigurasi Axios dan pemanggilan API ke Laravel.
+* `src/types`: Definisi Interface/Type TypeScript untuk data API.
+* `src/hooks`: Custom hooks untuk logika bisnis.
+
+---
+
+## 🔗 Integrasi API (Laravel)
+
+Frontend ini terintegrasi dengan endpoint utama SIPESDA API:
+
+* `POST /api/login` - Autentikasi Pengguna.
+* `GET /api/data-sumber-daya` - Mengambil list data.
+* `POST /api/simpan-data` - Input data baru.
+
+---
+
+## 📝 Catatan Tambahan
+
+Pastikan fitur **CORS** pada Laravel API sudah diaktifkan agar Frontend dapat mengakses data tanpa hambatan.
+
+---
