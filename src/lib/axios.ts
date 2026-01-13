@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL: "http://localhost/sipesda/public/api", // Sesuaikan dengan URL Laravel Anda
+    baseURL: "http://127.0.0.1:8000/sipesda/public/api", // Sesuaikan dengan URL Laravel Anda
     headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",
