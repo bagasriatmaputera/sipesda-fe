@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axiosInstance from "@/lib/axios";
 import type { Guru } from "@/types/type";
+import clsx from "clsx";
 
 
 export const useGuru = () => {
@@ -14,6 +15,7 @@ export const useGuru = () => {
             const res = await axiosInstance.get("/guru");
             // Sesuaikan dengan struktur JSON Laravel Anda (biasanya res.data atau res.data.data)
             setGuru(res.data.data || res.data);
+            console.log(res.data.data)
         } catch (err) {
             console.error("Gagal mengambil data guru:", err);
         } finally {
