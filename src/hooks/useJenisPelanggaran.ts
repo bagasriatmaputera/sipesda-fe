@@ -1,0 +1,75 @@
+import { useState, useEffect } from "react";
+import axiosInstance from "@/lib/axios";
+import type { Guru, jenisPelanggaran } from "@/types/type";
+import clsx from "clsx";
+
+
+export const useJenisPelanggaran = () => {
+    const [jenisPelanggaran, setJenisPelanggran] = useState<jenisPelanggaran[]>([]);
+    const [loading, setLoading] = useState(false);
+
+    // 1. READ: Ambil semua data guru
+    const fetchJenisPelanggaran = async () => {
+        setLoading(true);
+        try {
+            const res = await axiosInstance.get("/pelanggaran/jenis-pelanggaran");
+            setJenisPelanggran(res.data.data || res.data);
+            console.log(res.data.data)
+        } catch (err) {
+            console.error("Gagal mengambil data guru:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // 2. CREATE: Tambah guru (Mendukung upload foto)
+    const storeJenisPelanggaran = async (param: any) => {
+        try {
+            await axiosInstance.post("/pelanggaran/jenis-pelanggaran/create", param, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+            fetchJenisPelanggaran(); 
+        } catch (err) {
+            console.error("Gagal menyimpan data guru:", err);
+            throw err;
+        }
+    };
+
+    // 3. UPDATE: Edit data guru
+    const updateJenisPelanggaran = async (id: number, formData: FormData) => {
+        try {
+            await axiosInstance.post(`/pelanggaran/jenis-pelanggaran/${id}?_method=PUT`, formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+            fetchJenisPelanggaran();
+        } catch (err) {
+            console.error("Gagal update data guru:", err);
+            throw err;
+        }
+    };
+
+    // 4. DELETE: Hapus guru
+    const deleteJenisPelanggaran = async (id: number) => {
+        try {
+            await axiosInstance.delete(`/pelanggaran/jenis-pelanggaran/${id}`);
+            fetchJenisPelanggaran();
+        } catch (err) {
+            console.error("Gagal menghapus data guru:", err);
+            throw err;
+        }
+    };
+
+    // Jalankan fetch saat pertama kali load
+    useEffect(() => {
+        fetchJenisPelanggaran();
+    }, []);
+
+    return { 
+        jenisPelanggaran, 
+        loading, 
+        storeJenisPelanggaran, 
+        updateJenisPelanggaran, 
+        deleteJenisPelanggaran, 
+        refresh: fetchJenisPelanggaran 
+    };
+};
