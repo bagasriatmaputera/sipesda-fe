@@ -1,9 +1,12 @@
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
-import DataSiswaPage from "./pages/DaftarSiswaPage";
-import DataGuruPage from "./pages/DaftarGuruPage";
-import PelanggaranSiswa from "./pages/PelanggaranSiswaPage";
+import DataSiswaPage from "./pages/Siswa/DaftarSiswaPage";
+import DataGuruPage from "./pages/Guru/DaftarGuruPage";
+import PelanggaranSiswa from "./pages/Pelanggaran/PelanggaranSiswaPage";
+import InputPelanggaranPage from "./pages/Pelanggaran/InputPelanggaranSiswaPage";
+import JenisPelanggaranPage from "./pages/Pelanggaran/JenisPelanggaranPage";
+import InputJenisPelanggaran from "./pages/Pelanggaran/InputJenisPelanggaran";
 
 function App() {
   return (
@@ -14,6 +17,9 @@ function App() {
         <Route path="/siswa" element={<DataSiswaPage />}></Route>
         <Route path="/guru" element={<DataGuruPage />}></Route>
         <Route path="/pelanggaran" element={<PelanggaranSiswa />}></Route>
+        <Route path="/pelanggaran/input-pelanggaran" element={<InputPelanggaranPage />}></Route>
+        <Route path="/pelanggaran/jenis-pelanggaran" element={<JenisPelanggaranPage />}></Route>
+        <Route path="/pelanggaran/create-jenis-pelanggaran" element={<InputJenisPelanggaran />}></Route>
       </Routes>
     </BrowserRouter>
   )
