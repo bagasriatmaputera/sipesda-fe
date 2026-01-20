@@ -57,21 +57,21 @@ export function AppSidebar() {
             icon: FileWarning,
             subItems: [
                 { title: "Data Pelanggaran", url: "/pelanggaran" },
-                { title: "Input Pelanggaran Siswa", url: "/pelanggaran/input" },
-                { title: "Jenis Pelanggaran", url: "/pelanggaran/jenis" },
-                { title: "Tambah Jenis Pelanggaran", url: "/pelanggaran/jenis/tambah" },
+                { title: "Input Pelanggaran Siswa", url: "/pelanggaran/input-pelanggaran" },
+                { title: "Jenis Pelanggaran", url: "/pelanggaran/jenis-pelanggaran" },
+                { title: "Tambah Jenis Pelanggaran", url: "/pelanggaran/create-jenis-pelanggaran" },
             ]
         }
     ];
 
-    const ahpMenuItems = {
-        title: "Metode AHP",
+    const SAWMenuItems = {
+        title: "Metode SAW",
         icon: Scale,
         items: [
-            { title: "Kriteria", url: "/ahp/kriteria" },
-            { title: "Perbandingan", url: "/ahp/perbandingan" },
-            { title: "Hasil Ranking", url: "/ahp/ranking" },
-            { title: "Riwayat", url: "/ahp/history" },
+            { title: "Kriteria", url: "/saw/kriteria" },
+            { title: "Bobot Rules", url: "/saw/bobot-rule" },
+            { title: "Hasil Ranking", url: "/saw/ranking" },
+            { title: "Riwayat", url: "/saw/history" },
         ],
     };
 
@@ -131,19 +131,19 @@ export function AppSidebar() {
                                 </Collapsible>
                             ))}
 
-                            {/* Menu AHP (Accordion) */}
+                            {/* Menu Saw (Accordion) */}
                             <Collapsible asChild className="group/collapsible">
                                 <SidebarMenuItem>
                                     <CollapsibleTrigger asChild>
                                         <SidebarMenuButton>
-                                            <ahpMenuItems.icon />
-                                            <span>{ahpMenuItems.title}</span>
+                                            <SAWMenuItems.icon />
+                                            <span>{SAWMenuItems.title}</span>
                                             <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                                         </SidebarMenuButton>
                                     </CollapsibleTrigger>
                                     <CollapsibleContent>
                                         <SidebarMenuSub>
-                                            {ahpMenuItems.items.map((subItem) => {
+                                            {SAWMenuItems.items.map((subItem) => {
                                                 const isActive = location.pathname === subItem.url;
                                                 return (
                                                     <SidebarMenuSubItem key={subItem.title}>
