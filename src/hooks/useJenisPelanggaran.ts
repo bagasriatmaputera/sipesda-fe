@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axiosInstance from "@/lib/axios";
 import type { Guru, jenisPelanggaran } from "@/types/type";
 import clsx from "clsx";
+import { toast } from "sonner";
 
 
 export const useJenisPelanggaran = () => {
@@ -52,6 +53,7 @@ export const useJenisPelanggaran = () => {
     const deleteJenisPelanggaran = async (id: number) => {
         try {
             await axiosInstance.delete(`/pelanggaran/jenis-pelanggaran/${id}`);
+            toast.success("Berhasil menghapus!")
             fetchJenisPelanggaran();
         } catch (err) {
             console.error("Gagal menghapus data guru:", err);
