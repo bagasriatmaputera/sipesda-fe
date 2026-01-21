@@ -23,13 +23,12 @@ export const useGuru = () => {
         }
     };
 
-    // 2. CREATE: Tambah guru (Mendukung upload foto)
     const storeGuru = async (formData: FormData) => {
         try {
             await axiosInstance.post("/guru", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
-            fetchGuru(); // Refresh data setelah simpan
+            fetchGuru(); 
         } catch (err) {
             console.error("Gagal menyimpan data guru:", err);
             throw err;
@@ -39,7 +38,6 @@ export const useGuru = () => {
     // 3. UPDATE: Edit data guru
     const updateGuru = async (id: number, formData: FormData) => {
         try {
-            // Laravel terkadang butuh spoofing method _method=PUT untuk multipart/form-data
             await axiosInstance.post(`/guru/${id}?_method=PUT`, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
