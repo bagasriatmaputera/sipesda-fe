@@ -159,7 +159,7 @@ export default function InputJenisPelanggaran() {
                                         <TableCell>
                                             <Input
                                                 type="number"
-                                                placeholder="Contoh: 10"
+                                                placeholder="between: 0.1 - 1.0"
                                                 className="focus-visible:ring-zinc-400"
                                                 value={row.poin}
                                                 onChange={(e) => handleInputChange(row.rowId, "poin", e.target.value)}
