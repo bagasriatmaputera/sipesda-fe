@@ -9,7 +9,6 @@ export const useJenisPelanggaran = () => {
     const [jenisPelanggaran, setJenisPelanggran] = useState<jenisPelanggaran[]>([]);
     const [loading, setLoading] = useState(false);
 
-    // 1. READ: Ambil semua data guru
     const fetchJenisPelanggaran = async () => {
         setLoading(true);
         try {
@@ -23,7 +22,6 @@ export const useJenisPelanggaran = () => {
         }
     };
 
-    // 2. CREATE: Tambah guru (Mendukung upload foto)
     const storeJenisPelanggaran = async (param: any) => {
         try {
             await axiosInstance.post("/pelanggaran/jenis-pelanggaran/create", param, {
@@ -36,7 +34,6 @@ export const useJenisPelanggaran = () => {
         }
     };
 
-    // 3. UPDATE: Edit data guru
     const updateJenisPelanggaran = async (id: number, formData: FormData) => {
         try {
             await axiosInstance.post(`/pelanggaran/jenis-pelanggaran/${id}?_method=PUT`, formData, {
@@ -49,7 +46,6 @@ export const useJenisPelanggaran = () => {
         }
     };
 
-    // 4. DELETE: Hapus guru
     const deleteJenisPelanggaran = async (id: number) => {
         try {
             await axiosInstance.delete(`/pelanggaran/jenis-pelanggaran/${id}`);
