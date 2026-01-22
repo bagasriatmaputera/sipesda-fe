@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Layout from "@/layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,9 +13,8 @@ import {
 } from "@/components/ui/table";
 import { Info, Plus, Save, Trash2, Loader2, Image as ImageIcon } from "lucide-react";
 import { toast } from "sonner";
-import { useGuru } from "@/hooks/useGuru"; // Pastikan hook ini sudah ada
+import { useGuru } from "@/hooks/useGuru";
 import { useKelas } from "@/hooks/useKelas";
-import { string } from "zod";
 
 interface GuruFormRow {
     rowId: number;
@@ -23,7 +22,7 @@ interface GuruFormRow {
     nip: string;
     kelas_id: string | number;
     no_hp: string;
-    photo: File | null; // Untuk handle upload file
+    photo: File | null;
 }
 
 export default function InputGuruPage() {
@@ -68,17 +67,9 @@ export default function InputGuruPage() {
                 formData.append(`${index}[kelas_id]`, String(row.kelas_id));
                 formData.append(`${index}[no_hp]`, row.no_hp);
                 if (row.photo) {
-                    formData.append(`${index}photo]`, row.photo);
+                    formData.append(`${index}[photo]`, row.photo);
                 }
             });
-
-            const payload = rows.map(({ rowId, photo, ...rest }) => ({
-                ...rest,
-                nip: String(rest.nip),
-                nama_guru: String(rest.nama_guru),
-                no_hp: String(rest.no_hp),
-                kelas_id: rest.kelas_id ? Number(rest.kelas_id) : null,
-            }));
 
             await storeGuru(formData);
 
@@ -96,9 +87,9 @@ export default function InputGuruPage() {
             <div className="p-6 space-y-6 w-full max-w-full overflow-hidden">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
-                        <h1 className="text-2xl font-bold tracking-tight">Input Data Guru</h1>
+                        <h1 className="text-2xl font-bold tracking-tight">Input Data Siswa</h1>
                         <p className="text-muted-foreground text-sm flex items-center gap-1 mt-1">
-                            <Info className="size-3" /> Tambah data guru secara massal.
+                            <Info className="size-3" /> Tambah data siswa secara massal.
                         </p>
                     </div>
                     <div className="flex w-full sm:w-auto gap-2">
