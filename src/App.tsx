@@ -7,6 +7,8 @@ import PelanggaranSiswa from "./pages/Pelanggaran/PelanggaranSiswaPage";
 import InputPelanggaranPage from "./pages/Pelanggaran/InputPelanggaranSiswaPage";
 import JenisPelanggaranPage from "./pages/Pelanggaran/JenisPelanggaranPage";
 import InputJenisPelanggaran from "./pages/Pelanggaran/InputJenisPelanggaran";
+import InputGuruPage from "./pages/Guru/InputGuruPage";
+import InputSiswaPage from "./pages/Siswa/InputSiswaPage";
 
 function App() {
   return (
@@ -15,7 +17,9 @@ function App() {
         <Route path="/login" element={<LoginPage />}></Route>
         <Route path="/" element={<DashboardPage />}></Route>
         <Route path="/siswa" element={<DataSiswaPage />}></Route>
+        <Route path="/siswa/create" element={<InputSiswaPage />}></Route>
         <Route path="/guru" element={<DataGuruPage />}></Route>
+        <Route path="/guru/create" element={<InputGuruPage />}></Route>
         <Route path="/pelanggaran" element={<PelanggaranSiswa />}></Route>
         <Route path="/pelanggaran/input-pelanggaran" element={<InputPelanggaranPage />}></Route>
         <Route path="/pelanggaran/jenis-pelanggaran" element={<JenisPelanggaranPage />}></Route>
