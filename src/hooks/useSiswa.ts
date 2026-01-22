@@ -23,7 +23,7 @@ export const useSiswa = () => {
   const storeSiswa = async (data: any) => {
     try {
       await axiosInstance.post("/siswa", data);
-      fetchSiswa(); // Refresh data
+      fetchSiswa();
     } catch (err) {
       throw err;
     }
