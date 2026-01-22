@@ -1,17 +1,18 @@
-import { 
-    Table, 
-    TableBody, 
-    TableCaption, 
-    TableCell, 
-    TableHead, 
-    TableHeader, 
-    TableRow 
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Edit, Trash2, UserPlus, Phone } from "lucide-react"
 import { useGuru } from "@/hooks/useGuru"
 import Layout from "@/layout"
+import { useNavigate } from "react-router-dom"
 
 export default function DataGuruPage() {
     const { guru, loading, deleteGuru } = useGuru();
@@ -22,6 +23,12 @@ export default function DataGuruPage() {
         }
     };
 
+    const navigate = useNavigate()
+
+    const btnInputGuru = () => {
+        navigate('/guru/create')
+    }
+
     return (
         <Layout>
             <div className="flex flex-col gap-4 w-full max-w-full overflow-hidden p-6">
@@ -30,7 +37,7 @@ export default function DataGuruPage() {
                         <h1 className="text-2xl font-bold tracking-tight text-black">Data Guru</h1>
                         <p className="text-muted-foreground text-sm">Kelola informasi tenaga pengajar Da’il Khairaat.</p>
                     </div>
-                    <Button className="bg-black hover:bg-zinc-800 text-white flex gap-2 shrink-0">
+                    <Button onClick={btnInputGuru} className="bg-black hover:bg-zinc-800 text-white flex gap-2 shrink-0">
                         <UserPlus className="size-4" /> Tambah Guru
                     </Button>
                 </div>
