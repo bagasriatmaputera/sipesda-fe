@@ -41,7 +41,7 @@ export function AppSidebar() {
             icon: GraduationCap,
             subItems: [
                 { title: "Data Siswa", url: "/siswa" },
-                { title: "Tambah Siswa", url: "/siswa/tambah" },
+                { title: "Tambah Siswa", url: "/siswa/create" },
             ]
         },
         {
@@ -49,7 +49,7 @@ export function AppSidebar() {
             icon: UserCheck,
             subItems: [
                 { title: "Data Guru", url: "/guru" },
-                { title: "Tambah Guru", url: "/guru/tambah" },
+                { title: "Tambah Guru", url: "/guru/create" },
             ]
         },
         {

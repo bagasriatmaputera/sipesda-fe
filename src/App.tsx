@@ -9,6 +9,7 @@ import JenisPelanggaranPage from "./pages/Pelanggaran/JenisPelanggaranPage";
 import InputJenisPelanggaran from "./pages/Pelanggaran/InputJenisPelanggaran";
 import InputGuruPage from "./pages/Guru/InputGuruPage";
 import InputSiswaPage from "./pages/Siswa/InputSiswaPage";
+import BobotRulePage from "./pages/SAW/BobotRulePage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/pelanggaran/input-pelanggaran" element={<InputPelanggaranPage />}></Route>
         <Route path="/pelanggaran/jenis-pelanggaran" element={<JenisPelanggaranPage />}></Route>
         <Route path="/pelanggaran/create-jenis-pelanggaran" element={<InputJenisPelanggaran />}></Route>
+        <Route path="/saw/bobot-rule" element={<BobotRulePage />}></Route>
       </Routes>
     </BrowserRouter>
   )
