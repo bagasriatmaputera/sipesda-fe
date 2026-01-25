@@ -8,9 +8,10 @@ import {
     TableRow
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
-import { Edit, Trash2, UserPlus } from "lucide-react"
+import { Edit, Eye, Trash2, UserPlus } from "lucide-react"
 import { useSiswa } from "@/hooks/useSiswa"
 import Layout from "@/layout";
+import { useNavigate } from "react-router-dom";
 
 export default function DataSiswaPage() {
     const { siswa, loading, deleteSiswa } = useSiswa();
@@ -26,6 +27,12 @@ export default function DataSiswaPage() {
         }
     };
 
+    const navigate = useNavigate()
+
+    const handleBtnTambah = () => {
+        navigate('/siswa/create')
+    }
+
     return (
         <Layout>
             {/* KUNCI 1: overflow-hidden di container utama agar monitor terkunci */}
@@ -35,7 +42,7 @@ export default function DataSiswaPage() {
                         <h1 className="text-2xl font-bold tracking-tight">Daftar Siswa</h1>
                         <p className="text-muted-foreground text-sm">Kelola data siswa Da’il Khairaat</p>
                     </div>
-                    <Button className="flex gap-2 bg-black hover:bg-zinc-800 shrink-0">
+                    <Button onClick={handleBtnTambah} className="flex gap-2 bg-black hover:bg-zinc-800 shrink-0">
                         <UserPlus className="size-4" /> Tambah Siswa
                     </Button>
                 </div>
@@ -54,7 +61,6 @@ export default function DataSiswaPage() {
                                     <TableHead className="w-[180px]">Nama Wali</TableHead>
                                     <TableHead className="w-[150px]">No WA Wali</TableHead>
                                     <TableHead className="w-[120px]">Poin</TableHead>
-                                    {/* KUNCI 4: Sticky Action agar tombol aksi selalu muncul di kanan */}
                                     <TableHead className="text-right w-[100px] sticky right-0 bg-zinc-50 shadow-l">Aksi</TableHead>
                                 </TableRow>
                             </TableHeader>
@@ -86,6 +92,15 @@ export default function DataSiswaPage() {
                                             </TableCell>
                                             <TableCell className="text-right sticky right-0 bg-white/90 backdrop-blur-sm shadow-l">
                                                 <div className="flex justify-end gap-2">
+                                                    <Button
+                                                        onClick={() => navigate(`/siswa/detail/${item.id}`)}
+                                                        variant="outline"
+                                                        size="sm"
+                                                        className="h-8 w-8 p-0 border-zinc-200 hover:bg-blue-50"
+                                                        title="Lihat Detail"
+                                                    >
+                                                        <Eye className="size-4 text-blue-600" />
+                                                    </Button>
                                                     <Button variant="outline" size="sm" className="h-8 w-8 p-0 border-zinc-200">
                                                         <Edit className="size-4 text-blue-600" />
                                                     </Button>
