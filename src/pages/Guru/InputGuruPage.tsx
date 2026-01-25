@@ -63,7 +63,7 @@ export default function InputGuruPage() {
 
             rows.forEach((row, index) => {
                 formData.append(`${index}[nama_guru]`, row.nama_guru);
-                formData.append(`${index}[nip]`, row.nama_guru);
+                formData.append(`${index}[nip]`, row.nip);
                 formData.append(`${index}[kelas_id]`, String(row.kelas_id));
                 formData.append(`${index}[no_hp]`, row.no_hp);
                 if (row.photo) {
