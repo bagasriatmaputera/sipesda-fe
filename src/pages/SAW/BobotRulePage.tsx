@@ -145,6 +145,11 @@ export default function BobotRulePage() {
                     </Dialog>
                 </div>
 
+                <div className="px-1 text-xs text-muted-foreground italic bg-blue-50 p-3 rounded-lg border border-blue-100 flex items-start gap-2">
+                    <Info className="size-4 text-blue-500 shrink-0 mt-0.5" />
+                    <span>Catatan: Pastikan total bobot untuk kriteria pada tahap yang sama berjumlah 1.0 (100%) agar perhitungan SAW akurat.</span>
+                </div>
+
                 <div className="border rounded-xl bg-white overflow-hidden shadow-sm mt-2">
                     <div className="overflow-x-auto w-full">
                         <Table className="w-full min-w-[700px] table-fixed">
@@ -212,11 +217,6 @@ export default function BobotRulePage() {
                             </TableBody>
                         </Table>
                     </div>
-                </div>
-
-                <div className="px-1 text-xs text-muted-foreground italic bg-blue-50 p-3 rounded-lg border border-blue-100 flex items-start gap-2">
-                    <Info className="size-4 text-blue-500 shrink-0 mt-0.5" />
-                    <span>Catatan: Pastikan total bobot untuk kriteria pada tahap yang sama berjumlah 1.0 (100%) agar perhitungan SAW akurat.</span>
                 </div>
             </div>
         </Layout>
