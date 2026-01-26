@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import axiosInstance from "@/lib/axios";
 import type { Siswa } from "@/types/type";
+import { toast } from "sonner";
 
 export const useSiswa = () => {
   const [siswa, setSiswa] = useState<Siswa[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // READ: Ambil semua data siswa
   const fetchSiswa = async () => {
     setLoading(true);
     try {
@@ -19,7 +19,6 @@ export const useSiswa = () => {
     }
   };
 
-  // CREATE: Tambah siswa
   const storeSiswa = async (data: any) => {
     try {
       await axiosInstance.post("/siswa", data);
@@ -29,7 +28,6 @@ export const useSiswa = () => {
     }
   };
 
-  // UPDATE: Edit siswa
   const updateSiswa = async (id: number, data: any) => {
     try {
       await axiosInstance.put(`/siswa/${id}`, data);
@@ -39,13 +37,26 @@ export const useSiswa = () => {
     }
   };
 
-  // DELETE: Hapus siswa
   const deleteSiswa = async (id: number) => {
     try {
       await axiosInstance.delete(`/siswa/${id}`);
       fetchSiswa();
     } catch (err) {
       throw err;
+    }
+  };
+
+  const showSiswa = async (id: string | number) => {
+    try {
+      setLoading(true);
+      const res = await axiosInstance.get(`/siswa/${id}`);
+      return res.data.data;
+    } catch (err: any) {
+      toast.error("Gagal ambil detail siswa");
+      console.error(err);
+      return null;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -56,6 +67,7 @@ export const useSiswa = () => {
   return {
     siswa,
     loading,
+    showSiswa,
     storeSiswa,
     updateSiswa,
     deleteSiswa,
