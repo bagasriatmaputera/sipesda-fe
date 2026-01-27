@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { FileText } from "lucide-react";
+import { useNavigate, useParams } from "react-router-dom";
 import Layout from "@/layout";
 import { useSiswa } from "@/hooks/useSiswa";
 import {
@@ -18,11 +19,12 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { User, ShieldAlert, BarChart3, Phone, School, Hash, Loader2 } from "lucide-react";
+import { User, ShieldAlert, BarChart3, Phone, School, Hash, Loader2, ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function DetailSiswaPage() {
     const { id } = useParams();
-    const { showSiswa, loading } = useSiswa();
+    const { showSiswa, loading, exportPdf } = useSiswa();
     const [siswa, setSiswa] = useState<any>(null);
 
     useEffect(() => {
@@ -40,22 +42,39 @@ export default function DetailSiswaPage() {
         if (nilai >= 0.50) return "bg-yellow-500 hover:bg-yellow-600 text-white"; // Kuning
         return "bg-green-600 hover:bg-green-700 text-white"; // Hijau
     };
+    
+
+    const navigate = useNavigate()
 
     if (loading) {
         return (
             <Layout>
-                <div className="flex h-screen items-center justify-center">
+                <div className="flex h-screen w-full items-center justify-center">
                     <Loader2 className="animate-spin size-8 text-zinc-500" />
                 </div>
             </Layout>
         );
     }
 
-    if (!siswa) return null;
+    if (!siswa) {
+        return (
+            <Layout>
+                <div className="p-6 text-center">Data tidak ditemukan.</div>
+            </Layout>
+        );
+    }
+
 
     return (
         <Layout>
             <div className="p-6 space-y-8 max-w-7xl mx-auto">
+                <Button
+                    variant="ghost"
+                    onClick={() => navigate("/siswa")}
+                    className="w-fit p-0 h-auto hover:bg-transparent text-zinc-500 hover:text-zinc-900 flex gap-2"
+                >
+                    <ArrowLeft className="size-4" /> Kembali ke Daftar Siswa
+                </Button>
                 {/* 1. TABLE / CARD DETAIL BIODATA */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <Card className="lg:col-span-1 shadow-sm border-zinc-200">
@@ -184,6 +203,13 @@ export default function DetailSiswaPage() {
                         </div>
                     </CardContent>
                 </Card>
+                <Button
+                    onClick={() => exportPdf(siswa.id)}
+                    variant="outline"
+                    className="flex gap-2 border-red-200 text-red-600 hover:bg-red-50"
+                >
+                    <FileText className="size-4" /> Cetak PDF
+                </Button>
             </div>
         </Layout>
     );
