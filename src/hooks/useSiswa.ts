@@ -60,6 +60,24 @@ export const useSiswa = () => {
     }
   };
 
+  const exportPdf = async (id: string | number) => {
+    try {
+        const response = await axiosInstance.get(`/siswa/export-pdf/${id}`, {
+            responseType: 'blob', // Penting agar data dibaca sebagai file
+        });
+        
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `Laporan_Siswa_${id}.pdf`);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+    } catch (err) {
+        toast.error("Gagal mengekspor PDF");
+    }
+};
+
   useEffect(() => {
     fetchSiswa();
   }, []);
@@ -67,6 +85,7 @@ export const useSiswa = () => {
   return {
     siswa,
     loading,
+    exportPdf,
     showSiswa,
     storeSiswa,
     updateSiswa,
