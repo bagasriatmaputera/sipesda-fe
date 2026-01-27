@@ -59,6 +59,19 @@ export const useGuru = () => {
     }
   };
 
+  const showGuru = async (id: number | string) => {
+    try {
+      setLoading(true);
+      const res = await axiosInstance.get(`/guru/${id}`);
+      return res.data.data
+    } catch (err) {
+      toast.error('Gagal ambil data guru' + err)
+      console.error('Gagal ambil data guru', err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   // Jalankan fetch saat pertama kali load
   useEffect(() => {
     fetchGuru();
@@ -67,6 +80,7 @@ export const useGuru = () => {
   return {
     guru,
     loading,
+    showGuru,
     storeGuru,
     updateGuru,
     deleteGuru,
