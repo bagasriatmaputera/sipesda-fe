@@ -10,6 +10,9 @@ import InputJenisPelanggaran from "./pages/Pelanggaran/InputJenisPelanggaran";
 import InputGuruPage from "./pages/Guru/InputGuruPage";
 import InputSiswaPage from "./pages/Siswa/InputSiswaPage";
 import BobotRulePage from "./pages/SAW/BobotRulePage";
+import KriteriaDanTahapPage from "./pages/SAW/KriteriaDanTahapPage";
+import DetailSiswaPage from "./pages/Siswa/DetailSiswaPage";
+import DetailGuruPage from "./pages/Guru/DetailGuruPage";
 
 function App() {
   return (
@@ -19,13 +22,16 @@ function App() {
         <Route path="/" element={<DashboardPage />}></Route>
         <Route path="/siswa" element={<DataSiswaPage />}></Route>
         <Route path="/siswa/create" element={<InputSiswaPage />}></Route>
+        <Route path="/siswa/detail/:id" element={<DetailSiswaPage />}></Route>
         <Route path="/guru" element={<DataGuruPage />}></Route>
+        <Route path="/guru/detail/:id" element={<DetailGuruPage />}></Route>
         <Route path="/guru/create" element={<InputGuruPage />}></Route>
         <Route path="/pelanggaran" element={<PelanggaranSiswa />}></Route>
         <Route path="/pelanggaran/input-pelanggaran" element={<InputPelanggaranPage />}></Route>
         <Route path="/pelanggaran/jenis-pelanggaran" element={<JenisPelanggaranPage />}></Route>
         <Route path="/pelanggaran/create-jenis-pelanggaran" element={<InputJenisPelanggaran />}></Route>
         <Route path="/saw/bobot-rule" element={<BobotRulePage />}></Route>
+        <Route path="/saw/kriteria-tahap" element={<KriteriaDanTahapPage />}></Route>
       </Routes>
     </BrowserRouter>
   )

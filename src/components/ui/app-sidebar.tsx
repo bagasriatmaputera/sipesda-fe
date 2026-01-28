@@ -68,7 +68,7 @@ export function AppSidebar() {
         title: "Metode SAW",
         icon: Scale,
         items: [
-            { title: "Kriteria", url: "/saw/kriteria" },
+            { title: "Kriteria dan Tahap", url: "/saw/kriteria-tahap" },
             { title: "Bobot Rules", url: "/saw/bobot-rule" },
             { title: "Hasil Ranking", url: "/saw/ranking" },
             { title: "Riwayat", url: "/saw/history" },
