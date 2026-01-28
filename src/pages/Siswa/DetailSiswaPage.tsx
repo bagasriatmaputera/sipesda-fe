@@ -42,7 +42,7 @@ export default function DetailSiswaPage() {
         if (nilai >= 0.50) return "bg-yellow-500 hover:bg-yellow-600 text-white"; // Kuning
         return "bg-green-600 hover:bg-green-700 text-white"; // Hijau
     };
-    
+
 
     const navigate = useNavigate()
 
@@ -130,23 +130,46 @@ export default function DetailSiswaPage() {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {siswa.pelanggaran?.map((p: any) => (
-                                            <TableRow key={p.id}>
-                                                <TableCell className="text-sm text-zinc-600">{p.tanggal}</TableCell>
-                                                <TableCell className="font-medium max-w-[200px] whitespace-normal break-words leading-relaxed" title={p.jenis_pelanggaran.nama}>
-                                                    {p.jenis_pelanggaran.nama}
+                                        {siswa.pelanggaran && siswa.pelanggaran.length > 0 ? (
+                                            // Jika ada data, lakukan mapping
+                                            siswa.pelanggaran.map((p: any) => (
+                                                <TableRow key={p.id}>
+                                                    <TableCell className="text-sm text-zinc-600">
+                                                        {p.tanggal}
+                                                    </TableCell>
+                                                    <TableCell className="font-medium max-w-[200px] whitespace-normal break-words leading-relaxed" title={p.jenis_pelanggaran?.nama}>
+                                                        {p.jenis_pelanggaran?.nama}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <Badge className={
+                                                            p.jenis_pelanggaran?.tingkat === 'berat'
+                                                                ? 'bg-red-100 text-red-700'
+                                                                : 'bg-yellow-100 text-yellow-700'
+                                                        }>
+                                                            {p.jenis_pelanggaran?.tingkat}
+                                                        </Badge>
+                                                    </TableCell>
+                                                    <TableCell className="text-center font-bold text-red-600">
+                                                        {p.poin}
+                                                    </TableCell>
+                                                    <TableCell className="text-sm italic">
+                                                        {p.guru?.nama}
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))
+                                        ) : (
+                                            // Jika tidak ada data pelanggaran
+                                            <TableRow>
+                                                <TableCell colSpan={5} className="h-32 text-center">
+                                                    <div className="flex flex-col items-center justify-center gap-2">
+                                                        <span className="text-2xl">🎉</span>
+                                                        <p className="text-zinc-500 font-medium">
+                                                            Selamat, <span className="text-zinc-900 font-bold">{siswa.nama}</span> tidak memiliki riwayat pelanggaran.
+                                                        </p>
+                                                    </div>
                                                 </TableCell>
-                                                <TableCell>
-                                                    <Badge className={
-                                                        p.jenis_pelanggaran.tingkat === 'berat' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700'
-                                                    }>
-                                                        {p.jenis_pelanggaran.tingkat}
-                                                    </Badge>
-                                                </TableCell>
-                                                <TableCell className="text-center font-bold text-red-600">{p.poin}</TableCell>
-                                                <TableCell className="text-sm italic">{p.guru.nama}</TableCell>
                                             </TableRow>
-                                        ))}
+                                        )}
                                     </TableBody>
                                 </Table>
                             </div>

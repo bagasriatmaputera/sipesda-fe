@@ -20,7 +20,7 @@ interface FormRow {
     rowId: number;
     nama_pelanggaran: string;
     tingkat_pelanggaran_id: number | string;
-    poin: number | string; // Gunakan string untuk mempermudah input handling
+    poin: number | string;
 }
 
 export default function InputJenisPelanggaran() {
@@ -73,7 +73,6 @@ export default function InputJenisPelanggaran() {
         }
 
 
-        // 5. Transformasi Data (Payload)
         const payload = rows.map(({ rowId, ...rest }) => ({
             nama_pelanggaran: rest.nama_pelanggaran,
             tingkat_pelanggaran_id: Number(rest.tingkat_pelanggaran_id),
