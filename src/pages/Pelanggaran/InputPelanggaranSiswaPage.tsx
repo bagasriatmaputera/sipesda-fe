@@ -26,7 +26,7 @@ export default function InputPelanggaranPage() {
     const { jenisPelanggaran } = useJenisPelanggaran();
     const { storePelanggaran } = usePelanggaran();
     const [isLoading, setIsLoading] = useState(false);
-
+    const navigate = useNavigate()
     const [rows, setRows] = useState<FormRow[]>([
         { rowId: Date.now(), siswa_id: 0, guru_id: 0, jenis_pelanggaran_id: 0, keterangan: "" }
     ]);
@@ -67,6 +67,8 @@ export default function InputPelanggaranPage() {
             setRows([
                 { rowId: Date.now(), siswa_id: "", guru_id: "", jenis_pelanggaran_id: "", keterangan: "" }
             ]);
+            navigate('/pelanggaran')
+            toast.success("Berhasil input pelanggaran siswa!");
         } catch (error) {
             console.error("gagal tambah data", error)
         }

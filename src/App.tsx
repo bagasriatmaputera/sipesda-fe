@@ -9,10 +9,9 @@ import JenisPelanggaranPage from "./pages/Pelanggaran/JenisPelanggaranPage";
 import InputJenisPelanggaran from "./pages/Pelanggaran/InputJenisPelanggaran";
 import InputGuruPage from "./pages/Guru/InputGuruPage";
 import InputSiswaPage from "./pages/Siswa/InputSiswaPage";
-import BobotRulePage from "./pages/SAW/BobotRulePage";
-import KriteriaDanTahapPage from "./pages/SAW/KriteriaDanTahapPage";
 import DetailSiswaPage from "./pages/Siswa/DetailSiswaPage";
 import DetailGuruPage from "./pages/Guru/DetailGuruPage";
+import KriteriaTahapBobotRulePage from "./pages/SAW/KriteriaTahapBobotRulePage";
 
 function App() {
   return (
@@ -30,8 +29,7 @@ function App() {
         <Route path="/pelanggaran/input-pelanggaran" element={<InputPelanggaranPage />}></Route>
         <Route path="/pelanggaran/jenis-pelanggaran" element={<JenisPelanggaranPage />}></Route>
         <Route path="/pelanggaran/create-jenis-pelanggaran" element={<InputJenisPelanggaran />}></Route>
-        <Route path="/saw/bobot-rule" element={<BobotRulePage />}></Route>
-        <Route path="/saw/kriteria-tahap" element={<KriteriaDanTahapPage />}></Route>
+        <Route path="/saw/kriteria-tahap-bobot-rule" element={<KriteriaTahapBobotRulePage />}></Route>
       </Routes>
     </BrowserRouter>
   )

@@ -14,7 +14,6 @@ export const useJenisPelanggaran = () => {
         try {
             const res = await axiosInstance.get("/pelanggaran/jenis-pelanggaran");
             setJenisPelanggran(res.data.data || res.data);
-            console.log(res.data.data)
         } catch (err) {
             console.error("Gagal mengambil data guru:", err);
         } finally {

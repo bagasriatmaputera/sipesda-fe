@@ -6,14 +6,25 @@ import { toast } from "sonner";
 export const usePelanggaran = () => {
   const [pelanggaran, setPelanggaran] = useState<Pelanggaran[]>([]);
   const [loading, setLoading] = useState(false);
+  const [keyword, setKeyword] = useState<string>()
 
-  const fetchPelanggaran = async () => {
+
+  const fetchPelanggaran = async (keyword?: string) => {
     setLoading(true);
     try {
-      const res = await axiosInstance.get("/pelanggaran");
+      if (keyword) {
+        setKeyword(keyword)
+      }
+
+      const res = await axiosInstance.get(`/pelanggaran`, {
+        params: {
+          keyword: keyword || null
+        }
+      });
       setPelanggaran(res.data.data);
     } catch (err) {
-      console.error("Gagal ambil data pelanggaran siswa", err);
+      console.error("Gagal ambil data pelanggaran siswa");
+      console.error(err)
     } finally {
       setLoading(false);
     }
@@ -23,7 +34,6 @@ export const usePelanggaran = () => {
     try {
       await axiosInstance.post("/pelanggaran/create-pelanggaran", any);
       fetchPelanggaran();
-      toast.success("Berhasil input pelanggaran siswa!");
     } catch (error) {
       toast.error("Gagal input pelanggaran, mohon coba lagi");
       console.error(error);
@@ -40,13 +50,18 @@ export const usePelanggaran = () => {
   };
 
   useEffect(() => {
-    fetchPelanggaran();
-  }, []);
+    const delayDebounceFn = setTimeout(() => {
+      fetchPelanggaran(keyword);
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [keyword]);
 
   return {
     pelanggaran,
     storePelanggaran,
     loading,
+    fetchPelanggaran,
     refresh: fetchPelanggaran,
     deletePelanggaran,
   };
