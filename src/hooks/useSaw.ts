@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axiosInstance from "@/lib/axios";
-import type { BobotRule } from "@/types/type";
+import type { BobotRule, RankingSiswaSaw } from "@/types/type";
 import { toast } from "sonner";
 
 export const useSAW = () => {
@@ -8,6 +8,7 @@ export const useSAW = () => {
   const [tahap, setTahap] = useState<any[]>([]);
   const [kriteria, setKriteria] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [siswa, setSiswa] = useState<RankingSiswaSaw[]>([]);
 
   const fetchBobotRule = async () => {
     setLoading(true);
@@ -191,10 +192,23 @@ export const useSAW = () => {
     }
   };
 
+  const getRanking = async () => {
+    try {
+      setLoading(true)
+      const res = await axiosInstance.get('/saw/hasil/ranking');
+      setSiswa(res.data.data || res.data)
+      setLoading(false)
+    } catch (err) {
+      toast.error("Error, coba lagi nanti")
+      console.error(err)
+    }
+  }
+
   useEffect(() => {
     fetchBobotRule();
     fetchTahap();
     fetchKriteria();
+    getRanking()
   }, []);
 
   return {
@@ -202,7 +216,9 @@ export const useSAW = () => {
     loading,
     tahap,
     kriteria,
+    siswa,
     showKriteria,
+    getRanking,
     updateKriteria,
     deleteKriteria,
     storeKriteria,
@@ -213,6 +229,6 @@ export const useSAW = () => {
     storeBobotRule,
     updateBobotRule,
     deleteBobotRule,
-    refresh: [fetchBobotRule, fetchTahap, fetchKriteria],
+    refresh: [fetchBobotRule, fetchTahap, fetchKriteria, getRanking],
   };
 };

@@ -106,7 +106,7 @@ export default function PelanggaranSiswa() {
 
                                             <TableCell className="text-right space-x-2 sticky right-0 bg-white shadow-l">
                                                 <div className="flex justify-end gap-1">
-                                                    <Button variant="outline" size="sm" className="h-8 w-8 p-0"><Edit className="size-4" /></Button>
+                                                    <Button onClick={() => { navigate(`/pelanggaran/${item.id}`) }} variant="outline" size="sm" className="h-8 w-8 p-0"><Edit className="size-4" /></Button>
                                                     <Button variant="outline" size="sm" className="h-8 w-8 p-0" onClick={() => handleDelete(item.id)}><Trash2 className="size-4 text-red-600" /></Button>
                                                 </div>
                                             </TableCell>

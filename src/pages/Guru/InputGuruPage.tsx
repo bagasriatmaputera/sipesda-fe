@@ -87,9 +87,9 @@ export default function InputGuruPage() {
             <div className="p-6 space-y-6 w-full max-w-full overflow-hidden">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
-                        <h1 className="text-2xl font-bold tracking-tight">Input Data Siswa</h1>
+                        <h1 className="text-2xl font-bold tracking-tight">Input Data Guru</h1>
                         <p className="text-muted-foreground text-sm flex items-center gap-1 mt-1">
-                            <Info className="size-3" /> Tambah data siswa secara massal.
+                            <Info className="size-3" /> Tambah data guru secara massal.
                         </p>
                     </div>
                     <div className="flex w-full sm:w-auto gap-2">

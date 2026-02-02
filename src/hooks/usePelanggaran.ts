@@ -1,6 +1,7 @@
 import axiosInstance from "@/lib/axios";
 import type { Pelanggaran } from "@/types/type";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export const usePelanggaran = () => {
@@ -8,6 +9,7 @@ export const usePelanggaran = () => {
   const [loading, setLoading] = useState(false);
   const [keyword, setKeyword] = useState<string>()
 
+  const navigate = useNavigate()
 
   const fetchPelanggaran = async (keyword?: string) => {
     setLoading(true);
@@ -40,6 +42,31 @@ export const usePelanggaran = () => {
     }
   };
 
+  const showPelanggaran = async (id: number | string) => {
+    try {
+      setLoading(true);
+      const res = await axiosInstance.get(`/pelanggaran/show/${id}`)
+      setLoading(false)
+      return res.data.data || res.data
+    } catch (err) {
+      toast.error('Gagal ambil data')
+      console.error(err)
+    }
+
+  }
+
+  const updatePelanggaran = async (id: number | string, data: any,) => {
+    try {
+      setLoading(true)
+      await axiosInstance.patch(`pelanggaran/update/${id}`, data)
+      setLoading(false);
+      navigate('/pelanggaran')
+    } catch (err) {
+      toast.error('Gagal update data')
+      console.error(err)
+    }
+  }
+
   const deletePelanggaran = async (id: number) => {
     try {
       await axiosInstance.delete(`/pelanggaran/delete/${id}`);
@@ -60,7 +87,9 @@ export const usePelanggaran = () => {
   return {
     pelanggaran,
     storePelanggaran,
+    updatePelanggaran,
     loading,
+    showPelanggaran,
     fetchPelanggaran,
     refresh: fetchPelanggaran,
     deletePelanggaran,

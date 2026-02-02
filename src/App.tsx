@@ -12,6 +12,11 @@ import InputSiswaPage from "./pages/Siswa/InputSiswaPage";
 import DetailSiswaPage from "./pages/Siswa/DetailSiswaPage";
 import DetailGuruPage from "./pages/Guru/DetailGuruPage";
 import KriteriaTahapBobotRulePage from "./pages/SAW/KriteriaTahapBobotRulePage";
+import RankingSAWPage from "./pages/SAW/RankingSawPage";
+import EditSiswaPage from "./pages/Siswa/EditSiswaPage";
+import EditGuruPage from "./pages/Guru/EditGuruPage";
+import EditPelanggaranPage from "./pages/Pelanggaran/EditPelanggaranPage";
+import PrintPDF from "./pages/Siswa/PrintPDF";
 
 function App() {
   return (
@@ -21,15 +26,20 @@ function App() {
         <Route path="/" element={<DashboardPage />}></Route>
         <Route path="/siswa" element={<DataSiswaPage />}></Route>
         <Route path="/siswa/create" element={<InputSiswaPage />}></Route>
+        <Route path="/siswa/detail/print/:id" element={<PrintPDF />}></Route>
         <Route path="/siswa/detail/:id" element={<DetailSiswaPage />}></Route>
+        <Route path="/siswa/edit/:id" element={<EditSiswaPage />}></Route>
         <Route path="/guru" element={<DataGuruPage />}></Route>
         <Route path="/guru/detail/:id" element={<DetailGuruPage />}></Route>
+        <Route path="/guru/edit/:id" element={<EditGuruPage />}></Route>
         <Route path="/guru/create" element={<InputGuruPage />}></Route>
         <Route path="/pelanggaran" element={<PelanggaranSiswa />}></Route>
         <Route path="/pelanggaran/input-pelanggaran" element={<InputPelanggaranPage />}></Route>
+        <Route path="/pelanggaran/:id" element={<EditPelanggaranPage />}></Route>
         <Route path="/pelanggaran/jenis-pelanggaran" element={<JenisPelanggaranPage />}></Route>
         <Route path="/pelanggaran/create-jenis-pelanggaran" element={<InputJenisPelanggaran />}></Route>
         <Route path="/saw/kriteria-tahap-bobot-rule" element={<KriteriaTahapBobotRulePage />}></Route>
+        <Route path="/saw/ranking" element={<RankingSAWPage/>}></Route>
       </Routes>
     </BrowserRouter>
   )

@@ -86,8 +86,8 @@ export default function DataSiswaPage() {
                                             <TableCell className="truncate">{item.nama_wali}</TableCell>
                                             <TableCell className="text-sm">{item.no_hp_wali}</TableCell>
                                             <TableCell>
-                                                <span className={`inline-flex px-2 py-0.5 rounded text-xs font-bold ${item.poin > 50 ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`}>
-                                                    {item.poin || 0} Poin
+                                                <span className={`inline-flex px-2 py-0.5 rounded text-xs font-bold ${item.total_poin > 50 ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`}>
+                                                    {item.total_poin || 0} Poin
                                                 </span>
                                             </TableCell>
                                             <TableCell className="text-right sticky right-0 bg-white/90 backdrop-blur-sm shadow-l">
@@ -101,7 +101,9 @@ export default function DataSiswaPage() {
                                                     >
                                                         <Eye className="size-4 text-blue-600" />
                                                     </Button>
-                                                    <Button variant="outline" size="sm" className="h-8 w-8 p-0 border-zinc-200">
+                                                    <Button 
+                                                    onClick={() => navigate(`/siswa/edit/${item.id}`)}
+                                                    variant="outline" size="sm" className="h-8 w-8 p-0 border-zinc-200">
                                                         <Edit className="size-4 text-blue-600" />
                                                     </Button>
                                                     <Button

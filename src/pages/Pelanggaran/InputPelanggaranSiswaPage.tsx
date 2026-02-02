@@ -153,7 +153,7 @@ export default function InputPelanggaranPage() {
                                             >
                                                 <option value="">Pilih Jenis...</option>
                                                 {jenisPelanggaran?.map((q) => (
-                                                    <option key={q.id} value={q.id}>{q.nama_pelanggaran}</option>
+                                                    <option key={q.id} value={q.id}>{q.nama_pelanggaran} Poin:{q.poin}</option>
 
                                                 ))}
                                             </NativeSelect>

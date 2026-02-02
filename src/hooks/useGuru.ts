@@ -36,10 +36,9 @@ export const useGuru = () => {
   // 3. UPDATE: Edit data guru
   const updateGuru = async (id: number, formData: FormData) => {
     try {
-      await axiosInstance.post(`/guru/${id}?_method=PUT`, formData, {
+      await axiosInstance.patch(`/guru/${id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      fetchGuru();
     } catch (err) {
       console.error("Gagal update data guru:", err);
       throw err;

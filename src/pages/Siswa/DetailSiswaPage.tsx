@@ -227,7 +227,7 @@ export default function DetailSiswaPage() {
                     </CardContent>
                 </Card>
                 <Button
-                    onClick={() => exportPdf(siswa.id)}
+                    onClick={() => navigate(`/siswa/detail/print/${siswa.id}`)}
                     variant="outline"
                     className="flex gap-2 border-red-200 text-red-600 hover:bg-red-50"
                 >

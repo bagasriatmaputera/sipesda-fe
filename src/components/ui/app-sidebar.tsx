@@ -1,18 +1,10 @@
 import {
-    BarChart3,
     ChevronRight,
-    ClipboardList,
     FileWarning,
     GraduationCap,
     LayoutDashboard,
     Scale,
     UserCheck,
-    Users,
-    History,
-    UserPlus,
-    List,
-    PlusCircle,
-    AlertCircle
 } from "lucide-react"
 
 import {

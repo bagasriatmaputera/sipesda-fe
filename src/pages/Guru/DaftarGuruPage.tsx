@@ -74,7 +74,7 @@ export default function DataGuruPage() {
                                         <TableRow key={item.id ?? index} className="hover:bg-zinc-50/50">
                                             <TableCell>
                                                 <Avatar className="h-10 w-10 border shadow-sm">
-                                                    <AvatarImage src={item.photo} alt={item.nama} className="object-cover" />
+                                                    <AvatarImage src={`http://127.0.0.1:8000/storage/${item.photo}`} alt={item.nama} className="object-cover" />
                                                     <AvatarFallback className="bg-zinc-100 text-xs font-bold text-zinc-500">
                                                         {item.nama?.substring(0, 2).toUpperCase()}
                                                     </AvatarFallback>
@@ -104,7 +104,7 @@ export default function DataGuruPage() {
                                                     >
                                                         <Eye className="size-4 text-blue-600" />
                                                     </Button>
-                                                    <Button variant="outline" size="sm" className="h-8 w-8 p-0 border-zinc-200">
+                                                    <Button onClick={()=>{navigate(`/guru/edit/${item.id}`)}} variant="outline" size="sm" className="h-8 w-8 p-0 border-zinc-200">
                                                         <Edit className="size-4 text-blue-600" />
                                                     </Button>
                                                     <Button

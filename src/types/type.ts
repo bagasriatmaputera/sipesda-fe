@@ -1,9 +1,13 @@
+import { string } from "zod";
+
 export interface Guru {
     id: number;
+    user_id: number;
     nip: string;
     nama: string;
     photo: string;
     no_hp: string;
+    kelas?: Kelas;
 }
 
 export interface BobotRule {
@@ -46,4 +50,11 @@ export interface Kelas {
     id: number;
     nama_kelas: string;
     wali_kelas_id: Guru;
+}
+
+export interface RankingSiswaSaw {
+    tahap_id: number;
+    nama_siswa: string;
+    tahap: string;
+    nilai_preferensni: number;    
 }
