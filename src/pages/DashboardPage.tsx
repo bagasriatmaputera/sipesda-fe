@@ -1,8 +1,6 @@
 import {
     Users,
     AlertTriangle,
-    CheckCircle2,
-    TrendingUp,
     Loader2,
     ShieldAlert,
     Zap,

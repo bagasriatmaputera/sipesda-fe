@@ -27,8 +27,8 @@ export const useDashboard = () => {
   const totalSiswaTerlanggar = async () => {
     try {
       const res = await axiosInstance.get("/total-siswa-terlanggar");
-      setSiswaTerlanggar(res.data.data.siswa_terlanggar || res.data);
-      setTotalSiswa(res.data.data.total_siswa)
+      setSiswaTerlanggar(res.data.data.siswa_terlanggar || res.data.siswa_terlanggar);
+      setTotalSiswa(res.data.data.total_siswa || res.data.total_siswa)
     } catch (err) {
       console.error("Gagal mengambil data", err);
       throw err;
@@ -36,14 +36,14 @@ export const useDashboard = () => {
   };
 
   const perWeek = async () => {
-    try {
-      const res = await axiosInstance.get(`/pelanggaran-per-week`);
-      setPelanggaranPerWeek(res.data.data || res.data);
-    } catch (err) {
-      console.error("Gagal ambil data", err);
-      throw err;
-    }
-  };
+  try {
+    const res = await axiosInstance.get(`/pelanggaran-per-week`);
+    const val = res.data.data !== undefined ? res.data.data : res.data;
+    setPelanggaranPerWeek(typeof val === 'object' ? (val.total || 0) : val);
+  } catch (err) {
+    console.error("Gagal ambil data", err);
+  }
+};
 
   const siswaBigPoin = async () => {
     try {
