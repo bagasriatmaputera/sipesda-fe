@@ -17,8 +17,3 @@ axiosInstance.interceptors.request.use((config) => {
 });
 
 export default axiosInstance;
-
-// 4. EKSPOR FUNGSI TAMBAHAN (Opsional, gunakan Named Export)
-export const apiSiswa = () => axiosInstance.get('/siswa');
-export const apiGuru = () => axiosInstance.get('/guru');
-export const apiJenisPelanggaran = () => axiosInstance.get('/pelanggaran/jenis-pelanggaran');

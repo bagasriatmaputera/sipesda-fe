@@ -58,3 +58,14 @@ export interface RankingSiswaSaw {
     tahap: string;
     nilai_preferensni: number;    
 }
+
+export interface User {
+    id: number;
+    name: string;
+    email: string;
+}
+
+export interface RequestLogin {
+    email: string;
+    password: string;
+}
