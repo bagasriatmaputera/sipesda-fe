@@ -13,11 +13,13 @@ export const useAuth = () => {
     const login = async (data: RequestLogin) => {
         try {
             setLoading(true)
-            const res = await axiosInstance.post('/tokenLogin', data);
+            const res = await axiosInstance.post('/login', data);
 
             const token = res.data.token;
 
             const user = res.data.data;
+
+            setUser(user);
 
             if (token) {
                 localStorage.setItem('token', token);
@@ -34,14 +36,15 @@ export const useAuth = () => {
             setLoading(false)
         } catch (error) {
             console.error("Login Error:", error);
-            toast.error("NIP atau Password salah, silakan coba lagi.");
+            // toast.error("NIP atau Password salah, silakan coba lagi.");
+            setLoading(false)
         }
     };
 
     const logout = async () => {
         try {
             setLoading(true)
-            await axiosInstance.post('/logout');
+            await axiosInstance.get('/logout');
             setLoading(false)
         } catch (error) {
             console.error("Logout server error:", error);

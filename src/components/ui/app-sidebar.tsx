@@ -10,6 +10,7 @@ import {
 import {
     Sidebar,
     SidebarContent,
+    SidebarFooter,
     SidebarGroup,
     SidebarGroupContent,
     SidebarGroupLabel,
@@ -22,9 +23,12 @@ import {
 } from "@/components/ui/sidebar"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { Link, useLocation } from "react-router-dom"
+import { Button } from "@/components/ui/button"
+import { useAuth } from "@/hooks/useAuth"
 
 export function AppSidebar() {
     const location = useLocation();
+    const { logout, loading } = useAuth();
 
     // Menu Utama dengan Sub-menu (Accordion)
     const menuGroups = [
@@ -157,6 +161,16 @@ export function AppSidebar() {
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
+            <SidebarFooter>
+                <Button
+                    variant="ghost"
+                    className="w-full"
+                    onClick={logout}
+                    disabled={loading}
+                >
+                    {loading ? 'Logging out...' : 'Logout'}
+                </Button>
+            </SidebarFooter>
         </Sidebar>
     )
 }
