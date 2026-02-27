@@ -121,3 +121,19 @@
     @apply bg-background text-foreground;
   }
 }
+/* app-sidebar.css atau index.css */
+:root {
+  --sidebar-background: #ffffff;
+  --sidebar-foreground: #064e3b; /* emerald-900 */
+  --sidebar-primary: #10b981; /* emerald-500 */
+  --sidebar-accent: #ecfdf5; /* emerald-50 */
+  --sidebar-accent-foreground: #047857; /* emerald-700 */
+}
+
+/* Hilangkan margin/padding bawaan vite yang memusatkan konten jika ada */
+#root {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}

@@ -7,107 +7,118 @@ import {
     TableRow
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input" // Pastikan sudah install component input shadcn
-import { Edit, Trash2, UserPlus, Search } from "lucide-react" // Tambah icon Search
+import { Input } from "@/components/ui/input"
+import { Edit, Trash2, UserPlus, Search, Loader2, Calendar } from "lucide-react"
 import { usePelanggaran } from "@/hooks/usePelanggaran"
 import Layout from "@/layout"
 import { useNavigate } from "react-router-dom"
-import { useState } from "react" // Tambahkan useState
+import { useState } from "react"
+import { toast } from "sonner"
 
 export default function PelanggaranSiswa() {
-    // 1. Tambahkan fungsi search (asumsi hook usePelanggaran punya fungsi search)
     const { pelanggaran, loading, deletePelanggaran, fetchPelanggaran } = usePelanggaran();
     const [keyword, setKeyword] = useState("");
-
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const handleDelete = async (id: number) => {
         if (confirm(`Hapus data pelanggaran ini?`)) {
-            await deletePelanggaran(id);
+            try {
+                await deletePelanggaran(id);
+                toast.success("Data pelanggaran dihapus");
+            } catch (error) {
+                toast.error("Gagal menghapus data");
+            }
         }
     };
 
-    const btnInputPelanggaran = () => {
-        navigate('/pelanggaran/input-pelanggaran')
-    }
-
     return (
         <Layout>
-            <div className="flex flex-col gap-4 w-full max-w-full overflow-hidden">
-
+            <div className="flex flex-col gap-6 p-6 bg-emerald-50/10 min-h-screen w-full max-w-full overflow-hidden">
                 {/* Header */}
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-emerald-100 pb-6">
                     <div>
-                        <h1 className="text-2xl font-bold tracking-tight text-black">Data Pelanggaran Siswa</h1>
-                        <p className="text-muted-foreground text-sm">Kelola Pelanggaran Siswa.</p>
+                        <h1 className="text-3xl font-black text-emerald-950 tracking-tight">Data Pelanggaran</h1>
+                        <p className="text-emerald-600 font-medium">Log aktivitas indisipliner siswa Da’il Khairaat.</p>
                     </div>
 
-                    <div className="flex items-center gap-2 w-full md:w-auto">
-                        {/* 3. Form Input Search */}
-                        <form className="relative flex-1 md:w-64">
-                            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-zinc-500" />
+                    <div className="flex items-center gap-3 w-full md:w-auto">
+                        <div className="relative flex-1 md:w-80">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-emerald-500" />
                             <Input
                                 type="search"
-                                placeholder="Cari nama atau NIS..."
-                                className="pl-9 bg-white"
+                                placeholder="Cari nama siswa atau NIS..."
+                                className="pl-10 border-emerald-100 focus:ring-emerald-500 bg-white"
                                 value={keyword}
                                 onChange={(e) => {
                                     const val = e.target.value;
                                     setKeyword(val);
-                                    if (val.length === 0) {
-                                        fetchPelanggaran("");
-                                    }
-                                    else if (val.length >= 3) {
-                                        fetchPelanggaran(val);
-                                    }
+                                    if (val.length === 0) fetchPelanggaran("");
+                                    else if (val.length >= 3) fetchPelanggaran(val);
                                 }}
                             />
-                        </form>
+                        </div>
 
-                        <Button onClick={btnInputPelanggaran} className="bg-black hover:bg-zinc-800 text-white flex gap-2 shrink-0">
-                            <UserPlus className="size-4" /> <span className="hidden sm:inline">Input Pelanggaran</span>
+                        <Button 
+                            onClick={() => navigate('/pelanggaran/input-pelanggaran')} 
+                            className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-200 gap-2 shrink-0"
+                        >
+                            <UserPlus className="size-4" /> 
+                            <span className="hidden sm:inline">Input Pelanggaran</span>
                         </Button>
                     </div>
                 </div>
 
-                {/* Container Tabel */}
-                <div className="border rounded-lg bg-white overflow-hidden shadow-sm">
+                {/* Table Section */}
+                <div className="border border-emerald-100 rounded-2xl bg-white overflow-hidden shadow-sm">
                     <div className="overflow-x-auto w-full">
                         <Table className="w-full min-w-[1100px] table-fixed">
-                            <TableHeader className="bg-zinc-50">
-                                <TableRow>
-                                    <TableHead className="w-[180px]">Siswa</TableHead>
-                                    <TableHead className="w-[180px]">Guru</TableHead>
-                                    <TableHead className="w-[300px]">Jenis Pelanggaran</TableHead>
-                                    <TableHead className="w-[120px]">Tanggal</TableHead>
-                                    <TableHead className="w-[80px]">Poin</TableHead>
-                                    <TableHead className="w-[200px]">Keterangan</TableHead>
-                                    <TableHead className="text-right w-[100px] sticky right-0 bg-zinc-50 shadow-l">Aksi</TableHead>
+                            <TableHeader className="bg-emerald-600">
+                                <TableRow className="hover:bg-emerald-600 border-none">
+                                    <TableHead className="text-white font-bold w-[180px]">Siswa</TableHead>
+                                    <TableHead className="text-white font-bold w-[180px]">Guru Pelapor</TableHead>
+                                    <TableHead className="text-white font-bold w-[300px]">Detail Pelanggaran</TableHead>
+                                    <TableHead className="text-white font-bold w-[150px]">Tanggal</TableHead>
+                                    <TableHead className="text-white font-bold w-[80px] text-center">Poin</TableHead>
+                                    <TableHead className="text-white font-bold w-[200px]">Keterangan</TableHead>
+                                    <TableHead className="text-right text-white font-bold w-[100px] sticky right-0 bg-emerald-600 shadow-l">Aksi</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {loading ? (
-                                    <TableRow><TableCell colSpan={7} className="text-center py-10">Memuat...</TableCell></TableRow>
+                                    <TableRow>
+                                        <TableCell colSpan={7} className="text-center py-20">
+                                            <Loader2 className="animate-spin text-emerald-600 mx-auto size-8" />
+                                        </TableCell>
+                                    </TableRow>
                                 ) : pelanggaran.length === 0 ? (
-                                    <TableRow><TableCell colSpan={7} className="text-center py-10">Data tidak ditemukan.</TableCell></TableRow>
+                                    <TableRow><TableCell colSpan={7} className="text-center py-20 text-emerald-400">Data tidak ditemukan.</TableCell></TableRow>
                                 ) : (
                                     pelanggaran.map((item: any, index: number) => (
-                                        <TableRow key={item.id ?? index}>
-                                            <TableCell className="truncate font-medium">{item.siswa?.nama}</TableCell>
-                                            <TableCell className="truncate">{item.guru?.nama}</TableCell>
+                                        <TableRow key={item.id ?? index} className="hover:bg-emerald-50/50 transition-colors border-emerald-50">
+                                            <TableCell className="font-bold text-emerald-950 truncate">{item.siswa?.nama}</TableCell>
+                                            <TableCell className="text-emerald-700 font-medium truncate">{item.guru?.nama}</TableCell>
                                             <TableCell>
-                                                <p className="line-clamp-2 text-xs leading-relaxed">
+                                                <p className="line-clamp-2 text-xs font-medium text-emerald-900 leading-relaxed">
                                                     {item.pelanggaran?.nama}
                                                 </p>
                                             </TableCell>
-                                            <TableCell className="whitespace-nowrap">{item.tanggal}</TableCell>
-                                            <TableCell className="font-bold text-red-600">{item.poin}</TableCell>
-                                            <TableCell className="truncate text-zinc-500 italic text-xs">{item.keterangan || '-'}</TableCell>
+                                            <TableCell>
+                                                <div className="flex items-center gap-2 text-xs text-emerald-600">
+                                                    <Calendar className="size-3" />
+                                                    {item.tanggal}
+                                                </div>
+                                            </TableCell>
+                                            <TableCell className="text-center">
+                                                <span className="bg-red-50 text-red-600 px-2 py-1 rounded font-black text-sm border border-red-100">
+                                                    {item.poin}
+                                                </span>
+                                            </TableCell>
+                                            <TableCell className="truncate text-emerald-500 italic text-xs">{item.keterangan || '-'}</TableCell>
 
-                                            <TableCell className="text-right space-x-2 sticky right-0 bg-white shadow-l">
+                                            <TableCell className="text-right sticky right-0 bg-white/95 backdrop-blur-sm shadow-l">
                                                 <div className="flex justify-end gap-1">
-                                                    <Button onClick={() => { navigate(`/pelanggaran/${item.id}`) }} variant="outline" size="sm" className="h-8 w-8 p-0"><Edit className="size-4" /></Button>
-                                                    <Button variant="outline" size="sm" className="h-8 w-8 p-0" onClick={() => handleDelete(item.id)}><Trash2 className="size-4 text-red-600" /></Button>
+                                                    <Button onClick={() => navigate(`/pelanggaran/${item.id}`)} variant="ghost" size="icon" className="text-emerald-600 hover:bg-emerald-100"><Edit className="size-4" /></Button>
+                                                    <Button variant="ghost" size="icon" className="text-red-500 hover:bg-red-50" onClick={() => handleDelete(item.id)}><Trash2 className="size-4" /></Button>
                                                 </div>
                                             </TableCell>
                                         </TableRow>

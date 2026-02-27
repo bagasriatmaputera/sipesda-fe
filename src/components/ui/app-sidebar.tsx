@@ -5,6 +5,7 @@ import {
     LayoutDashboard,
     Scale,
     UserCheck,
+    LogOut
 } from "lucide-react"
 
 import {
@@ -30,7 +31,6 @@ export function AppSidebar() {
     const location = useLocation();
     const { logout, loading } = useAuth();
 
-    // Menu Utama dengan Sub-menu (Accordion)
     const menuGroups = [
         {
             title: "Kelola Siswa",
@@ -53,9 +53,8 @@ export function AppSidebar() {
             icon: FileWarning,
             subItems: [
                 { title: "Data Pelanggaran", url: "/pelanggaran" },
-                { title: "Input Pelanggaran Siswa", url: "/pelanggaran/input-pelanggaran" },
+                { title: "Input Pelanggaran", url: "/pelanggaran/input-pelanggaran" },
                 { title: "Jenis Pelanggaran", url: "/pelanggaran/jenis-pelanggaran" },
-                { title: "Tambah Jenis Pelanggaran", url: "/pelanggaran/create-jenis-pelanggaran" },
             ]
         }
     ];
@@ -64,95 +63,99 @@ export function AppSidebar() {
         title: "Metode SAW",
         icon: Scale,
         items: [
-            { title: "Kriteria, Tahap, dan Bobot Rule", url: "/saw/kriteria-tahap-bobot-rule" },
+            { title: "Kriteria & Bobot", url: "/saw/kriteria-tahap-bobot-rule" },
             { title: "Hasil Ranking", url: "/saw/ranking" },
             { title: "Riwayat", url: "/saw/history" },
         ],
     };
 
+    // Helper untuk style active
+    const activeClass = "bg-emerald-600 text-white hover:bg-emerald-700 hover:text-white shadow-md shadow-emerald-200";
+    const iconActiveClass = "text-white";
+
     return (
-        <Sidebar>
-            <SidebarContent>
+        <Sidebar className="border-r border-emerald-100">
+            <SidebarContent className="bg-white">
                 <SidebarGroup>
-                    <SidebarGroupLabel className="font-bold text-black text-lg mb-4 uppercase tracking-wider">
-                        SIPESDA
+                    <SidebarGroupLabel className="flex items-center gap-2 px-2 py-6 mb-2">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500 to-green-600 text-white font-bold shadow-sm">
+                            S
+                        </div>
+                        <span className="text-xl font-black bg-gradient-to-r from-emerald-700 to-green-600 bg-clip-text text-transparent tracking-tight">
+                            SIPESDA
+                        </span>
                     </SidebarGroupLabel>
+                    
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            {/* Dashboard (Single Menu) */}
+                            {/* Dashboard */}
                             <SidebarMenuItem>
                                 <SidebarMenuButton
                                     asChild
-                                    className={location.pathname === "/" ? "bg-black text-white hover:bg-black hover:text-white" : ""}
+                                    className={location.pathname === "/" ? activeClass : "text-emerald-900 hover:bg-emerald-50 hover:text-emerald-700"}
                                 >
                                     <Link to="/">
-                                        <LayoutDashboard className={location.pathname === "/" ? "text-white" : ""} />
-                                        <span>Dashboard</span>
+                                        <LayoutDashboard className={location.pathname === "/" ? iconActiveClass : "text-emerald-600"} />
+                                        <span className="font-medium">Dashboard</span>
                                     </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
 
-                            {/* Render Kelola Siswa, Guru, Pelanggaran (Accordion) */}
+                            {/* Menu Groups (Accordion) */}
                             {menuGroups.map((group) => (
                                 <Collapsible key={group.title} asChild className="group/collapsible">
                                     <SidebarMenuItem>
                                         <CollapsibleTrigger asChild>
-                                            <SidebarMenuButton>
-                                                <group.icon />
-                                                <span>{group.title}</span>
-                                                <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                                            <SidebarMenuButton className="text-emerald-900 hover:bg-emerald-50">
+                                                <group.icon className="text-emerald-600" />
+                                                <span className="font-medium">{group.title}</span>
+                                                <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 text-emerald-400" />
                                             </SidebarMenuButton>
                                         </CollapsibleTrigger>
                                         <CollapsibleContent>
-                                            <SidebarMenuSub>
-                                                {group.subItems.map((sub) => {
-                                                    const isActive = location.pathname === sub.url;
-                                                    return (
-                                                        <SidebarMenuSubItem key={sub.title}>
-                                                            <SidebarMenuSubButton
-                                                                asChild
-                                                                className={isActive ? "bg-black text-white hover:bg-black hover:text-white" : ""}
-                                                            >
-                                                                <Link to={sub.url}>
-                                                                    <span>{sub.title}</span>
-                                                                </Link>
-                                                            </SidebarMenuSubButton>
-                                                        </SidebarMenuSubItem>
-                                                    );
-                                                })}
+                                            <SidebarMenuSub className="border-l-emerald-100 ml-4">
+                                                {group.subItems.map((sub) => (
+                                                    <SidebarMenuSubItem key={sub.title}>
+                                                        <SidebarMenuSubButton
+                                                            asChild
+                                                            className={location.pathname === sub.url ? activeClass : "text-emerald-700/80 hover:text-emerald-900 hover:bg-emerald-50"}
+                                                        >
+                                                            <Link to={sub.url}>
+                                                                <span>{sub.title}</span>
+                                                            </Link>
+                                                        </SidebarMenuSubButton>
+                                                    </SidebarMenuSubItem>
+                                                ))}
                                             </SidebarMenuSub>
                                         </CollapsibleContent>
                                     </SidebarMenuItem>
                                 </Collapsible>
                             ))}
 
-                            {/* Menu Saw (Accordion) */}
+                            {/* Menu SAW */}
                             <Collapsible asChild className="group/collapsible">
                                 <SidebarMenuItem>
                                     <CollapsibleTrigger asChild>
-                                        <SidebarMenuButton>
-                                            <SAWMenuItems.icon />
-                                            <span>{SAWMenuItems.title}</span>
-                                            <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                                        <SidebarMenuButton className="text-emerald-900 hover:bg-emerald-50">
+                                            <SAWMenuItems.icon className="text-emerald-600" />
+                                            <span className="font-medium">{SAWMenuItems.title}</span>
+                                            <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 text-emerald-400" />
                                         </SidebarMenuButton>
                                     </CollapsibleTrigger>
                                     <CollapsibleContent>
-                                        <SidebarMenuSub>
-                                            {SAWMenuItems.items.map((subItem) => {
-                                                const isActive = location.pathname === subItem.url;
-                                                return (
-                                                    <SidebarMenuSubItem key={subItem.title}>
-                                                        <SidebarMenuSubButton
-                                                            asChild
-                                                            className={isActive ? "bg-black text-white hover:bg-black hover:text-white" : ""}
-                                                        >
-                                                            <Link to={subItem.url}>
-                                                                <span>{subItem.title}</span>
-                                                            </Link>
-                                                        </SidebarMenuSubButton>
-                                                    </SidebarMenuSubItem>
-                                                )
-                                            })}
+                                        <SidebarMenuSub className="border-l-emerald-100 ml-4">
+                                            {SAWMenuItems.items.map((subItem) => (
+                                                <SidebarMenuSubItem key={subItem.title}>
+                                                    <SidebarMenuSubButton
+                                                        asChild
+                                                        className={location.pathname === subItem.url ? activeClass : "text-emerald-700/80 hover:text-emerald-900 hover:bg-emerald-50"}
+                                                    >
+                                                        <Link to={subItem.url}>
+                                                            <span>{subItem.title}</span>
+                                                        </Link>
+                                                    </SidebarMenuSubButton>
+                                                </SidebarMenuSubItem>
+                                            ))}
                                         </SidebarMenuSub>
                                     </CollapsibleContent>
                                 </SidebarMenuItem>
@@ -161,14 +164,16 @@ export function AppSidebar() {
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
-            <SidebarFooter>
+
+            <SidebarFooter className="p-4 bg-emerald-50/50 border-t border-emerald-100">
                 <Button
                     variant="ghost"
-                    className="w-full"
-                    onClick={logout}
+                    className="w-full justify-start gap-3 text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors"
+                    onClick={(e) => logout(e)} 
                     disabled={loading}
                 >
-                    {loading ? 'Logging out...' : 'Logout'}
+                    <LogOut className="h-4 w-4" />
+                    <span className="font-semibold">{loading ? 'Keluar...' : 'Logout'}</span>
                 </Button>
             </SidebarFooter>
         </Sidebar>

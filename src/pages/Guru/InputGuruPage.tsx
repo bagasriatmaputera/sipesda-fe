@@ -11,7 +11,7 @@ import {
     TableHeader,
     TableRow
 } from "@/components/ui/table";
-import { Info, Plus, Save, Trash2, Loader2, Image as ImageIcon } from "lucide-react";
+import { Info, Plus, Save, Trash2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useGuru } from "@/hooks/useGuru";
 import { useKelas } from "@/hooks/useKelas";
@@ -28,7 +28,6 @@ interface GuruFormRow {
 export default function InputGuruPage() {
     const { storeGuru } = useGuru();
     const [isLoading, setIsLoading] = useState(false);
-
     const { kelas } = useKelas();
 
     const [rows, setRows] = useState<GuruFormRow[]>([
@@ -58,8 +57,7 @@ export default function InputGuruPage() {
 
         try {
             setIsLoading(true);
-
-            const formData = new FormData
+            const formData = new FormData();
 
             rows.forEach((row, index) => {
                 formData.append(`${index}[nama_guru]`, row.nama_guru);
@@ -72,8 +70,7 @@ export default function InputGuruPage() {
             });
 
             await storeGuru(formData);
-
-            toast.success("Berhasil menyimpan data guru.");
+            toast.success("Berhasil menyimpan database guru.");
             setRows([{ rowId: Date.now(), nama_guru: "", nip: "", kelas_id: "", no_hp: "", photo: null }]);
         } catch (error: any) {
             toast.error(error.response?.data?.message || "Gagal menyimpan data.");
@@ -84,61 +81,68 @@ export default function InputGuruPage() {
 
     return (
         <Layout>
-            <div className="p-6 space-y-6 w-full max-w-full overflow-hidden">
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div className="p-6 space-y-6 bg-emerald-50/10 min-h-screen w-full max-w-full overflow-hidden">
+                <div className="flex flex-col sm:flex-row justify-between items-start gap-4 border-b border-emerald-100 pb-6">
                     <div>
-                        <h1 className="text-2xl font-bold tracking-tight">Input Data Guru</h1>
-                        <p className="text-muted-foreground text-sm flex items-center gap-1 mt-1">
-                            <Info className="size-3" /> Tambah data guru secara massal.
+                        <h1 className="text-3xl font-black text-emerald-950">Input Massal Guru</h1>
+                        <p className="text-emerald-600 font-medium flex items-center gap-2 mt-1">
+                            <Info className="size-4" /> Masukkan data tenaga pengajar secara kolektif.
                         </p>
                     </div>
                     <div className="flex w-full sm:w-auto gap-2">
-                        <Button onClick={addRow} variant="outline" className="flex-1 sm:flex-none gap-2">
+                        <Button 
+                            onClick={addRow} 
+                            variant="outline" 
+                            className="flex-1 sm:flex-none border-emerald-200 text-emerald-700 hover:bg-emerald-50 font-bold gap-2"
+                        >
                             <Plus className="size-4" /> Tambah Baris
                         </Button>
                         <Button
-                            className="flex-1 sm:flex-none bg-black text-white hover:bg-zinc-800 gap-2"
+                            className="flex-1 sm:flex-none bg-emerald-600 text-white hover:bg-emerald-700 shadow-lg shadow-emerald-200 gap-2"
                             onClick={handleSubmit}
                             disabled={isLoading}
                         >
                             {isLoading ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
-                            {isLoading ? "Menyimpan..." : "Simpan Semua"}
+                            {isLoading ? "Menyimpan..." : "Simpan Database"}
                         </Button>
                     </div>
                 </div>
 
-                <div className="border rounded-xl bg-white shadow-sm overflow-hidden">
+                <div className="border border-emerald-100 rounded-2xl bg-white shadow-xl overflow-hidden">
                     <div className="overflow-x-auto w-full">
                         <Table className="w-full min-w-[1000px] table-fixed">
-                            <TableHeader className="bg-zinc-50/50">
-                                <TableRow>
-                                    <TableHead className="w-[25%]">Nama Lengkap</TableHead>
-                                    <TableHead className="w-[15%]">NIP</TableHead>
-                                    <TableHead className="w-[15%]">Kelas</TableHead>
-                                    <TableHead className="w-[15%]">No. WA</TableHead>
-                                    <TableHead className="w-[20%]">Foto</TableHead>
-                                    <TableHead className="w-[10%] text-center">Aksi</TableHead>
+                            <TableHeader className="bg-emerald-900">
+                                <TableRow className="hover:bg-emerald-900 border-none">
+                                    <TableHead className="text-white font-bold w-[25%]">Nama Lengkap</TableHead>
+                                    <TableHead className="text-white font-bold w-[15%]">NIP</TableHead>
+                                    <TableHead className="text-white font-bold w-[180px]">Wali Kelas</TableHead>
+                                    <TableHead className="text-white font-bold w-[15%]">No. WhatsApp</TableHead>
+                                    <TableHead className="text-white font-bold w-[20%] text-center">Foto Profil</TableHead>
+                                    <TableHead className="text-white font-bold w-[80px] text-center">Hapus</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {rows.map((row) => (
-                                    <TableRow key={row.rowId}>
+                                    <TableRow key={row.rowId} className="border-emerald-50 hover:bg-emerald-50/30 transition-colors">
                                         <TableCell>
                                             <Input
-                                                placeholder="Nama Guru..."
+                                                placeholder="Nama Lengkap Guru..."
+                                                className="border-emerald-100 focus:ring-emerald-500"
                                                 value={row.nama_guru}
                                                 onChange={(e) => handleInputChange(row.rowId, "nama_guru", e.target.value)}
                                             />
                                         </TableCell>
                                         <TableCell>
                                             <Input
-                                                placeholder="NIP guru"
+                                                placeholder="NIP/NIK"
+                                                className="border-emerald-100"
                                                 value={row.nip}
                                                 onChange={(e) => handleInputChange(row.rowId, "nip", e.target.value)}
                                             />
                                         </TableCell>
                                         <TableCell>
                                             <NativeSelect
+                                                className="border-emerald-100"
                                                 value={row.kelas_id}
                                                 onChange={(e) => handleInputChange(row.rowId, "kelas_id", e.target.value)}
                                             >
@@ -151,26 +155,25 @@ export default function InputGuruPage() {
                                         <TableCell>
                                             <Input
                                                 placeholder="0812..."
+                                                className="border-emerald-100"
                                                 value={row.no_hp}
                                                 onChange={(e) => handleInputChange(row.rowId, "no_hp", e.target.value)}
                                             />
                                         </TableCell>
                                         <TableCell>
-                                            <div className="flex items-center gap-2">
-                                                <Input
-                                                    type="file"
-                                                    accept="image/*"
-                                                    className="text-xs"
-                                                    onChange={(e) => handleInputChange(row.rowId, "photo", e.target.files?.[0] || null)}
-                                                />
-                                            </div>
+                                            <Input
+                                                type="file"
+                                                accept="image/*"
+                                                className="text-[10px] border-emerald-100 cursor-pointer"
+                                                onChange={(e) => handleInputChange(row.rowId, "photo", e.target.files?.[0] || null)}
+                                            />
                                         </TableCell>
                                         <TableCell className="text-center">
                                             <Button
                                                 variant="ghost"
                                                 size="icon"
                                                 onClick={() => removeRow(row.rowId)}
-                                                className="text-zinc-400 hover:text-red-600"
+                                                className="text-red-400 hover:text-red-600 hover:bg-red-50"
                                             >
                                                 <Trash2 className="size-4" />
                                             </Button>
