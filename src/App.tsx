@@ -1,4 +1,4 @@
-import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { Route, Routes, BrowserRouter, Navigate } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import DataSiswaPage from "./pages/Siswa/DaftarSiswaPage";
@@ -21,12 +21,14 @@ import ProtectedRouted from "./components/ui/middleware/ProtectedRoute";
 import { Toaster } from "./components/ui/sonner";
 
 function App() {
+  const isAuthenticated = !!localStorage.getItem('token');
+
   return (
     <div className="">
       <Toaster position="top-right" reverseOrder={false} />
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<LoginPage />}></Route>
+          <Route path="/login" element={isAuthenticated ? <Navigate to="/" replace /> : <LoginPage />}></Route>
 
           <Route element={<ProtectedRouted />}>
             <Route path="/" element={<DashboardPage />}></Route>
@@ -47,6 +49,9 @@ function App() {
             <Route path="/saw/kriteria-tahap-bobot-rule" element={<KriteriaTahapBobotRulePage />}></Route>
             <Route path="/saw/ranking" element={<RankingSAWPage />}></Route>
           </Route>
+
+          {/* Catch-all route */}
+          <Route path="*" element={<Navigate to={isAuthenticated ? "/" : "/login"} replace />} />
         </Routes>
       </BrowserRouter>
     </div>
