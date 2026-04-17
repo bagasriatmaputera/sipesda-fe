@@ -24,7 +24,7 @@ export const useSAW = () => {
 
   const storeBobotRule = async (param: any) => {
     try {
-      await axiosInstance.post("/bobot/", param, {
+      await axiosInstance.post("/bobot/create", param, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       fetchBobotRule();
@@ -37,7 +37,7 @@ export const useSAW = () => {
 
   const updateBobotRule = async (id: number, formData: FormData) => {
     try {
-      await axiosInstance.post(`/bobot/${id}?_method=PUT`, formData, {
+      await axiosInstance.patch(`/bobot/${id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       fetchBobotRule();
@@ -51,11 +51,11 @@ export const useSAW = () => {
 
   const deleteBobotRule = async (id: number) => {
     try {
-      await axiosInstance.delete(`/pelanggaran/jenis-pelanggaran/${id}`);
+      await axiosInstance.delete(`/bobot/${id}`);
       toast.success("Berhasil menghapus!");
       fetchBobotRule();
     } catch (err) {
-      console.error("Gagal menghapus data guru:", err);
+      console.error("Gagal menghapus data bobot:", err);
       throw err;
     }
   };

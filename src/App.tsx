@@ -17,6 +17,7 @@ import EditSiswaPage from "./pages/Siswa/EditSiswaPage";
 import EditGuruPage from "./pages/Guru/EditGuruPage";
 import EditPelanggaranPage from "./pages/Pelanggaran/EditPelanggaranPage";
 import PrintPDF from "./pages/Siswa/PrintPDF";
+import PDFViewPage from "./pages/PDF/PDFViewPage";
 import ProtectedRouted from "./components/ui/middleware/ProtectedRoute";
 import { Toaster } from "./components/ui/sonner";
 
@@ -48,6 +49,7 @@ function App() {
             <Route path="/pelanggaran/create-jenis-pelanggaran" element={<InputJenisPelanggaran />}></Route>
             <Route path="/saw/kriteria-tahap-bobot-rule" element={<KriteriaTahapBobotRulePage />}></Route>
             <Route path="/saw/ranking" element={<RankingSAWPage />}></Route>
+            <Route path="/siswa/detail/pdf/:id" element={<PDFViewPage />}></Route>
           </Route>
 
           {/* Catch-all route */}

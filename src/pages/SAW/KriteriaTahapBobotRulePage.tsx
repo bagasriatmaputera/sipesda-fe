@@ -7,7 +7,7 @@ import {
     TableRow
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
-import { Edit, Trash2, Info, Plus, Loader2, PlusCircle, AlertTriangle, Settings2 } from "lucide-react"
+import { Edit, Trash2, Info, Plus, Loader2, PlusCircle, AlertTriangle, Settings2, Save } from "lucide-react"
 import Layout from "@/layout"
 import { useSAW } from "@/hooks/useSaw"
 import {
@@ -27,22 +27,40 @@ import { NativeSelect } from "@/components/ui/native-select"
 
 export default function KriteriaTahapBobotRulePage() {
     const {
-        deleteKriteria,
-        deleteTahap,
+        deleteBobotRule,
         storeBobotRule,
         bobotRule,
         loading,
-        deleteBobotRule,
         tahap,
-        kriteria
+        kriteria,
+        updateKriteria,
+        updateBobotRule,
+        updateTahap
     } = useSAW();
 
     const [isLoading, setIsLoading] = useState(false);
     const [isDeleting, setIsDeleting] = useState<number | null>(null);
+    const [isEditingKriteria, setIsEditingKriteria] = useState<number | null>(null);
+    const [isEditingBobot, setIsEditingBobot] = useState<number | null>(null);
+    const [isEditingTahap, setIsEditingTahap] = useState<number | null>(null);
     const [formData, setFormData] = useState({
         tahap_id: "",
         kriteria_id: "",
         bobot: ""
+    });
+    const [kriteriaFormData, setKriteriaFormData] = useState({
+        nama: "",
+        kode: ""
+    });
+    const [bobotFormData, setBobotFormData] = useState({
+        tahap_id: "",
+        kriteria_id: "",
+        bobot: ""
+    });
+    const [tahapFormData, setTahapFormData] = useState({
+        nama: "",
+        kode: "",
+        deskripsi: ""
     });
 
     const handleChange = (field: string, value: string) => {
@@ -59,7 +77,6 @@ export default function KriteriaTahapBobotRulePage() {
         try {
             setIsLoading(true);
             await storeBobotRule(formData);
-            toast.success("Bobot rule berhasil disimpan.");
             setFormData({ tahap_id: "", kriteria_id: "", bobot: "" });
         } catch (error: any) {
             toast.error("Gagal menyimpan bobot.");
@@ -73,13 +90,113 @@ export default function KriteriaTahapBobotRulePage() {
             try {
                 setIsDeleting(id);
                 await deleteBobotRule(id);
-                toast.success("Data bobot berhasil dihapus");
             } catch (error) {
                 toast.error("Gagal menghapus data");
             } finally {
                 setIsDeleting(null);
             }
         }
+    };
+
+    const handleEditKriteria = (item: any) => {
+        setIsEditingKriteria(item.id);
+        setKriteriaFormData({
+            nama: item.nama,
+            kode: item.kode
+        });
+    };
+
+    const handleSaveKriteria = async (id: number) => {
+        if (!kriteriaFormData.nama || !kriteriaFormData.kode) {
+            toast.error("Nama dan kode kriteria wajib diisi");
+            return;
+        }
+
+        try {
+            const data = new FormData();
+            data.append("nama", kriteriaFormData.nama);
+            data.append("kode", kriteriaFormData.kode);
+            
+            await updateKriteria(id, data);
+            setIsEditingKriteria(null);
+        } catch (error: any) {
+            // toast.error(error.response?.data?.message || "Gagal memperbarui kriteria");
+            console.error("Gagal memperbarui kriteria", error);
+        }
+    };
+
+    const handleCancelEditKriteria = () => {
+        setIsEditingKriteria(null);
+        setKriteriaFormData({ nama: "", kode: "" });
+    };
+
+    const handleEditBobot = (item: any) => {
+        setIsEditingBobot(item.id);
+        setBobotFormData({
+            tahap_id: item.tahap_id?.toString() || "",
+            kriteria_id: item.kriteria_id?.toString() || "",
+            bobot: item.bobot?.toString() || ""
+        });
+    };
+
+    const handleSaveBobot = async (id: number) => {
+        // if (!bobotFormData.tahap_id || !bobotFormData.kriteria_id || !bobotFormData.bobot) {
+        //     toast.error("Semua field bobot wajib diisi");
+        //     return;
+        // }
+
+        try {
+            const data = new FormData();
+            data.append("tahap_id", bobotFormData.tahap_id);
+            data.append("kriteria_id", bobotFormData.kriteria_id);
+            data.append("bobot", bobotFormData.bobot);
+            
+            await updateBobotRule(id, data);
+            setIsEditingBobot(null);
+        } catch (error: any) {
+            toast.error(error.response?.data?.message || "Gagal memperbarui bobot");
+        }
+    };
+
+    const handleCancelEditBobot = () => {
+        setIsEditingBobot(null);
+        setBobotFormData({ tahap_id: "", kriteria_id: "", bobot: "" });
+    };
+
+    const handleEditTahap = (item: any) => {
+        setIsEditingTahap(item.id);
+        setTahapFormData({
+            nama: item.nama,
+            kode: item.kode,
+            deskripsi: item.deskripsi || ""
+        });
+    };
+
+    const handleSaveTahap = async (id: number) => {
+        if (!tahapFormData.nama || !tahapFormData.kode) {
+            toast.error("Nama dan kode tahap wajib diisi");
+            return;
+        }
+
+        try {
+            const data = new FormData();
+            data.append("nama", tahapFormData.nama);
+            data.append("kode", tahapFormData.kode);
+            if (tahapFormData.deskripsi) {
+                data.append("deskripsi", tahapFormData.deskripsi);
+            }
+            
+            await updateTahap(id, data);
+            setIsEditingTahap(null);
+        } catch (error: any) {
+            // Toast error sudah ada di hooks
+            console.error("Gagal memperbarui tahap", error);
+        }
+    };
+
+    const handleCancelEditTahap = () => {
+        setIsEditingTahap(null);
+        setTahapFormData({ nama: "", kode: "", deskripsi: "" });
     };
 
     return (
@@ -115,11 +232,61 @@ export default function KriteriaTahapBobotRulePage() {
                                     kriteria.map((item: any, index: number) => (
                                         <TableRow key={item.id} className="hover:bg-emerald-50/50 border-emerald-50">
                                             <TableCell className="text-center font-bold text-emerald-300">{index + 1}</TableCell>
-                                            <TableCell className="font-bold text-emerald-900">{item.nama}</TableCell>
-                                            <TableCell className="text-center"><span className="bg-emerald-100 text-emerald-700 px-2 py-1 rounded font-mono text-xs font-bold">{item.kode}</span></TableCell>
+                                            <TableCell className="font-bold text-emerald-900">
+                                                {isEditingKriteria === item.id ? (
+                                                    <Input
+                                                        value={kriteriaFormData.nama}
+                                                        onChange={(e) => setKriteriaFormData(prev => ({ ...prev, nama: e.target.value }))}
+                                                        className="h-8 text-sm"
+                                                        placeholder="Nama kriteria"
+                                                    />
+                                                ) : (
+                                                    item.nama
+                                                )}
+                                            </TableCell>
+                                            <TableCell className="text-center">
+                                                {isEditingKriteria === item.id ? (
+                                                    <Input
+                                                        value={kriteriaFormData.kode}
+                                                        onChange={(e) => setKriteriaFormData(prev => ({ ...prev, kode: e.target.value }))}
+                                                        className="h-8 text-sm w-20 text-center"
+                                                        placeholder="Kode"
+                                                    />
+                                                ) : (
+                                                    <span className="bg-emerald-100 text-emerald-700 px-2 py-1 rounded font-mono text-xs font-bold">{item.kode}</span>
+                                                )}
+                                            </TableCell>
                                             <TableCell className="text-right">
                                                 <div className="flex justify-end gap-1">
-                                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-emerald-600"><Edit className="size-4" /></Button>
+                                                    {isEditingKriteria === item.id ? (
+                                                        <>
+                                                            <Button 
+                                                                variant="ghost" 
+                                                                size="icon" 
+                                                                className="h-8 w-8 text-green-600 hover:bg-green-50"
+                                                                onClick={() => handleSaveKriteria(item.id)}
+                                                            >
+                                                                <Save className="size-4" />
+                                                            </Button>
+                                                            <Button 
+                                                                variant="ghost" 
+                                                                size="icon" 
+                                                                className="h-8 w-8 text-red-600 hover:bg-red-50"
+                                                                onClick={handleCancelEditKriteria}
+                                                            >
+                                                                <Trash2 className="size-4" />
+                                                            </Button>
+                                                        </>
+                                                    ) : (
+                                                        <Button 
+                                                            variant="ghost" 
+                                                            size="icon" 
+                                                            className="h-8 w-8 text-emerald-600 hover:bg-emerald-50"
+                                                            onClick={() => handleEditKriteria(item)}
+                                                        >
+                                                            <Edit className="size-4" />
+                                                        </Button>
+                                                    )}
                                                 </div>
                                             </TableCell>
                                         </TableRow>
@@ -150,11 +317,66 @@ export default function KriteriaTahapBobotRulePage() {
                                     tahap.map((item: any, index: number) => (
                                         <TableRow key={item.id} className="hover:bg-emerald-50/50 border-emerald-50">
                                             <TableCell className="text-center font-bold text-emerald-300">{index + 1}</TableCell>
-                                            <TableCell className="font-bold text-emerald-900 leading-tight">{item.nama}<p className="text-[10px] text-emerald-500 font-normal italic truncate max-w-[150px]">{item.deskripsi}</p></TableCell>
-                                            <TableCell className="text-center"><span className="bg-emerald-900 text-white px-2 py-1 rounded font-mono text-xs font-bold">{item.kode}</span></TableCell>
+                                            <TableCell className="font-bold text-emerald-900 leading-tight">
+                                                {isEditingTahap === item.id ? (
+                                                    <div className="space-y-2">
+                                                        <div className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                                                            {item.nama}
+                                                        </div>
+                                                        <Input
+                                                            value={tahapFormData.deskripsi}
+                                                            onChange={(e) => setTahapFormData(prev => ({ ...prev, deskripsi: e.target.value }))}
+                                                            className="h-8 text-sm text-[10px] text-emerald-500 font-normal italic"
+                                                            placeholder="Deskripsi"
+                                                        />
+                                                    </div>
+                                                ) : (
+                                                    <>
+                                                        {item.nama}
+                                                        <p className="text-[10px] text-emerald-500 font-normal italic truncate max-w-[150px]">{item.deskripsi}</p>
+                                                    </>
+                                                )}
+                                            </TableCell>
+                                            <TableCell className="text-center">
+                                                {isEditingTahap === item.id ? (
+                                                    <div className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded font-mono">
+                                                        {item.kode}
+                                                    </div>
+                                                ) : (
+                                                    <span className="bg-emerald-900 text-white px-2 py-1 rounded font-mono text-xs font-bold">{item.kode}</span>
+                                                )}
+                                            </TableCell>
                                             <TableCell className="text-right">
                                                 <div className="flex justify-end gap-1">
-                                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-emerald-600"><Edit className="size-4" /></Button>
+                                                    {isEditingTahap === item.id ? (
+                                                        <>
+                                                            <Button 
+                                                                variant="ghost" 
+                                                                size="icon" 
+                                                                className="h-8 w-8 text-green-600 hover:bg-green-50"
+                                                                onClick={() => handleSaveTahap(item.id)}
+                                                            >
+                                                                <Save className="size-4" />
+                                                            </Button>
+                                                            <Button 
+                                                                variant="ghost" 
+                                                                size="icon" 
+                                                                className="h-8 w-8 text-red-600 hover:bg-red-50"
+                                                                onClick={handleCancelEditTahap}
+                                                            >
+                                                                <Trash2 className="size-4" />
+                                                            </Button>
+                                                        </>
+                                                    ) : (
+                                                        <Button 
+                                                            variant="ghost" 
+                                                            size="icon" 
+                                                            className="h-8 w-8 text-emerald-600 hover:bg-emerald-50"
+                                                            onClick={() => handleEditTahap(item)}
+                                                        >
+                                                            <Edit className="size-4" />
+                                                        </Button>
+                                                    )}
                                                 </div>
                                             </TableCell>
                                         </TableRow>
@@ -173,11 +395,11 @@ export default function KriteriaTahapBobotRulePage() {
                             <h3 className="text-xl font-black text-emerald-950">Aturan Bobot (Matrix)</h3>
                         </div>
                         <Dialog>
-                            <DialogTrigger asChild>
+                            {/* <DialogTrigger asChild>
                                 <Button className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-200">
                                     <Plus className="size-4 mr-2" /> Atur Bobot Baru
                                 </Button>
-                            </DialogTrigger>
+                            </DialogTrigger> */}
                             <DialogContent className="sm:max-w-[425px] border-emerald-100">
                                 <DialogHeader>
                                     <DialogTitle className="text-emerald-900 font-black">Tambah Aturan Bobot</DialogTitle>
@@ -247,13 +469,61 @@ export default function KriteriaTahapBobotRulePage() {
                                             )}
                                             <TableCell className="text-center font-mono font-bold text-emerald-700">{b.kode_kriteria}</TableCell>
                                             <TableCell className="text-center">
-                                                <span className="bg-emerald-100 text-emerald-800 px-4 py-1 rounded-full font-black text-sm border border-emerald-200 shadow-sm">{b.bobot}</span>
+                                                {isEditingBobot === b.id ? (
+                                                    <Input
+                                                        type="number"
+                                                        step="0.01"
+                                                        value={bobotFormData.bobot}
+                                                        onChange={(e) => setBobotFormData(prev => ({ ...prev, bobot: e.target.value }))}
+                                                        className="h-8 w-20 text-center"
+                                                        placeholder="Bobot"
+                                                    />
+                                                ) : (
+                                                    <span className="bg-emerald-100 text-emerald-800 px-4 py-1 rounded-full font-black text-sm border border-emerald-200 shadow-sm">{b.bobot}</span>
+                                                )}
                                             </TableCell>
                                             <TableCell className="text-right">
                                                 <div className="flex justify-end gap-1">
-                                                    <Button variant="ghost" size="icon" className="text-red-500 hover:bg-red-50" onClick={() => handleDeleteBobot(b.id, b.kode_tahap)} disabled={isDeleting === b.id}>
-                                                        {isDeleting === b.id ? <Loader2 className="animate-spin size-4" /> : <Trash2 className="size-4" />}
-                                                    </Button>
+                                                    {isEditingBobot === b.id ? (
+                                                        <>
+                                                            <Button 
+                                                                variant="ghost" 
+                                                                size="icon" 
+                                                                className="h-8 w-8 text-green-600 hover:bg-green-50"
+                                                                onClick={() => handleSaveBobot(b.id)}
+                                                            >
+                                                                <Save className="size-4" />
+                                                            </Button>
+                                                            <Button 
+                                                                variant="ghost" 
+                                                                size="icon" 
+                                                                className="h-8 w-8 text-red-600 hover:bg-red-50"
+                                                                onClick={handleCancelEditBobot}
+                                                            >
+                                                                <Trash2 className="size-4" />
+                                                            </Button>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <Button 
+                                                                variant="ghost" 
+                                                                size="icon" 
+                                                                className="h-8 w-8 text-emerald-600 hover:bg-emerald-50"
+                                                                onClick={() => handleEditBobot(b)}
+                                                            >
+                                                                <Edit className="size-4" />
+                                                            </Button>
+                                                            <Button 
+                                                                variant="ghost" 
+                                                                size="icon" 
+                                                                className="text-red-500 hover:bg-red-50" 
+                                                                onClick={() => handleDeleteBobot(b.id, b.kode_tahap)} 
+                                                                disabled={isDeleting === b.id}
+                                                            >
+                                                                {isDeleting === b.id ? <Loader2 className="animate-spin size-4" /> : <Trash2 className="size-4" />}
+                                                            </Button>
+                                                        </>
+                                                    )}
                                                 </div>
                                             </TableCell>
                                         </TableRow>
